@@ -105,9 +105,11 @@ GEM
     net-smtp (0.3.2)
       net-protocol
     nio4r (2.5.8)
+    nokogiri (1.13.9-arm64-darwin)
+      racc (~> 1.4)
     nokogiri (1.13.9-x86_64-linux)
       racc (~> 1.4)
-    pg (1.4.4)
+    pg (1.1.4)
     puma (5.6.5)
       nio4r (~> 2.0)
     racc (1.6.0)
@@ -171,13 +173,14 @@ GEM
     zeitwerk (2.6.1)
 
 PLATFORMS
+  arm64-darwin-21
   x86_64-linux
 
 DEPENDENCIES
   bootsnap
   debug
   importmap-rails
-  pg (~> 1.1)
+  pg (~> 1.1.0)
   puma (~> 5.0)
   rails (~> 7.0.4)
   sprockets-rails
@@ -187,7 +190,7 @@ DEPENDENCIES
   web-console
 
 RUBY VERSION
-   ruby 3.0.4p208
+   ruby 3.1.2p20
 
 BUNDLED WITH
    2.2.33
