@@ -1,24 +1,14 @@
-# README
+# Hydra, a Social Network
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Introduction
 
-Things you may want to cover:
+Hydra is a twitter-like social network. 
 
-* Ruby version
+## Designs
 
-* System dependencies
+### MVC Figure
 
-* Configuration
+![image-20221030163639716](README.assets/image-20221030163639716.png)
 
-* Database creation
+### UI Mockups
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
