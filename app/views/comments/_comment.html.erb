@@ -1,0 +1,16 @@
+<p>
+  <strong>Commenter:</strong>
+  <%= comment.Username %>
+</p>
+
+<p>
+  <strong>Comment:</strong>
+  <%= comment.Message %> <font size=1>(<%= comment.created_at %>)</font>
+</p>
+
+<p>
+  <%= link_to "Destroy Comment", [comment.post, comment], data: {
+    turbo_method: :delete,
+    turbo_confirm: "Are you sure?"
+  } %>
+</p>

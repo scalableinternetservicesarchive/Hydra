@@ -1,0 +1,12 @@
+<h1>Post Detail</h1>
+<strong>Author: <%= @post.Username %></strong>
+Modified at <%= @post.updated_at %>, pid: <%= @post.id %><br>
+
+<h2>Contents</h2>
+<p><%= @post.Message %></p>
+
+<h2>Comments</h2>
+<%= render @post.comments %>
+
+<h2>New Comment</h2>
+<%= render 'comments/form' %>

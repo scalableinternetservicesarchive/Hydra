@@ -1,0 +1,34 @@
+<p>
+  <strong>Author:</strong>
+  <%= link_to post.Username, User.find_by(Username: post.Username) %>
+  <strong>Posted at:</strong>
+  <%= post.created_at %>
+</p>
+
+<p>
+  <%= link_to "Post:", post_path(post) %>
+  <%= post.Message %>
+</p>
+
+<ul>
+  <% post.comments.each do |comment| %>
+    <li>
+      <p>
+        <strong>Commenter:</strong>
+        <%= comment.Username %>
+      </p>
+
+      <p>
+        <strong>Comment:</strong>
+        <%= comment.Message %> <font size=1>(<%= comment.created_at %>)</font>
+      </p>
+    </li>
+  <% end %>
+</ul>
+
+<p>
+  <%= link_to "Comments", post %> | <%= link_to "Delete Post", post, data: {
+  turbo_method: :delete,
+  turbo_confirm: "Are you sure? Comments affiliated to this post will also be deleted!"
+} %>
+</p>

@@ -1,0 +1,9 @@
+<%= form_with model: [ @post, @post.comments.build ] do |form| %>
+  <p>
+    <%= form.label :Message %><br>
+    <%= form.text_area :Message %>
+  </p>
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>
