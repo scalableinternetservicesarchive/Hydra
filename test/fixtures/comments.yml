@@ -3,7 +3,9 @@
 one:
   Username: MyString
   Message: MyString
+  post: one
 
 two:
   Username: MyString
   Message: MyString
+  post: two
