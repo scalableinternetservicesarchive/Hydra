@@ -3,11 +3,9 @@
 one:
   Username: MyString
   Message: MyString
-  string: MyString
   Likes: 1
 
 two:
   Username: MyString
   Message: MyString
-  string: MyString
   Likes: 1
