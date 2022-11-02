@@ -6,8 +6,8 @@
   <div>
     <%= form_for(:session, url: login_path) do |f| %>
 
-      <%= f.label :name %>
-      <%= f.text_field :name %>
+      <%= f.label :Username %>
+      <%= f.text_field :Username %>
 
       <%= f.label :password %>
       <%= f.password_field :password %>
@@ -16,5 +16,5 @@
     <% end %>
 
     <p>New user? <%= link_to "Sign up now!", new_user_path %></p>
-</div>
+  </div>
 </div>

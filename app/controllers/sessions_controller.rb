@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.find_by(name: params[:session][:Username])
+    user = User.find_by(Username: params[:session][:Username])
     if user && user.authenticate(params[:session][:password])
       # puts " ++DEBUG++ into_login?"
       current_user

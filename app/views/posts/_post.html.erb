@@ -10,21 +10,6 @@
   <%= post.Message %>
 </p>
 
-<ul>
-  <% post.comments.each do |comment| %>
-    <li>
-      <p>
-        <strong>Commenter:</strong>
-        <%= comment.Username %>
-      </p>
-
-      <p>
-        <strong>Comment:</strong>
-        <%= comment.Message %> <font size=1>(<%= comment.created_at %>)</font>
-      </p>
-    </li>
-  <% end %>
-</ul>
 
 <p>
   <%= link_to "Comments", post %> | <%= link_to "Delete Post", post, data: {

@@ -8,9 +8,9 @@
   </p>
 
   <p>
-    <%= form.label :password_digest %><br>
-    <%= form.text_field :password_digest %><br>
-    <% user.errors.full_messages_for(:password_digest).each do |message| %>
+    <%= form.label :password %><br>
+    <%= form.text_field :password %><br>
+    <% user.errors.full_messages_for(:password).each do |message| %>
     <div><%= message %></div>
   <% end %>
   </p>

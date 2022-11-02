@@ -7,7 +7,7 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
-    @user = User.find_by(name: @post.Username)
+    @user = User.find_by(Username: @post.Username)
   end
 
   def new
@@ -16,7 +16,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(Message: params[:post][:Message], likes: 0, name: current_user.Username)
+    @post = Post.new(Message: params[:post][:Message], Likes: 0, Username: current_user.Username)
 
     if @post.save
       redirect_to @post
