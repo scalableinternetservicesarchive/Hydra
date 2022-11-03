@@ -4,8 +4,9 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
-  root  'static_pages#home'
-  get   'login'   =>  'sessions#new'
-  post  'login'   =>  'sessions#create'
-  get   'logout'  =>  'sessions#destroy'
+  root    'static_pages#home'
+  get     '/login'   =>  'sessions#new'
+  post    '/login'   =>  'sessions#create'
+  delete  '/logout'  =>  'sessions#destroy'
+  resources :users
 end
