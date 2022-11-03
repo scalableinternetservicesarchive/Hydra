@@ -1,0 +1,31 @@
+<%= form_with model: group do |form| %>
+  <div>
+    <%= form.label :groupname %><br>
+    <%= form.text_field :groupname %>
+    <% group.errors.full_messages_for(:groupname).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :pic_url %><br>
+    <%= form.text_field :pic_url %><br>
+    <% group.errors.full_messages_for(:pic_url).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :user_id, "Admin User ID" %><br>
+    <%= form.text_field :user_id %><br>
+    <% flash.each do |type, msg| %>
+      <div>
+        <%= msg %>
+      </div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
