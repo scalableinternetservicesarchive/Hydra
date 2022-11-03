@@ -32,7 +32,13 @@
   <% end %>
   </p>
 
-<!--  TODO: add the avatar upload section in the future.-->
+  <p>
+    <%= form.label :avatar %><br>
+    <%= form.text_field :avatar %><br>
+    <% user.errors.full_messages_for(:avatar).each do |message| %>
+    <div><%= message %></div>
+  <% end %>
+  </p>
 
   <div>
     <%= form.submit %>
