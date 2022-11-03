@@ -1,9 +1,9 @@
 
 <%= form_with model: user do |form| %>
   <p>
-    <%= form.label :name %><br>
-    <%= form.text_field :name %>
-    <% user.errors.full_messages_for(:name).each do |message| %>
+    <%= form.label :username %><br>
+    <%= form.text_field :username %>
+    <% user.errors.full_messages_for(:username).each do |message| %>
     <div><%= message %></div>
   <% end %>
   </p>
@@ -18,8 +18,8 @@
 
   <p>
     <%= form.label :password %><br>
-    <%= form.text_field :password %><br>
-    <% user.errors.full_messages_for(:password).each do |message| %>
+    <%= form.text_field :password_digest %><br>
+    <% user.errors.full_messages_for(:password_digest).each do |message| %>
     <div><%= message %></div>
   <% end %>
   </p>
@@ -34,8 +34,8 @@
 
   <p>
     <%= form.label :avatar %><br>
-    <%= form.text_field :avatar %><br>
-    <% user.errors.full_messages_for(:avatar).each do |message| %>
+    <%= form.text_field :pic_url %><br>
+    <% user.errors.full_messages_for(:pic_url).each do |message| %>
     <div><%= message %></div>
   <% end %>
   </p>

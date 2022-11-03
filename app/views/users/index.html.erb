@@ -8,11 +8,12 @@ Our twitter has <%= User.count %> users!
 <ul>
   <% @users.each do |user| %>
     <li>
-      <%= link_to user.name, user %><br>
+      <%= link_to user.username, user %><br>
       <%= user.about %><br>
-      <ul>
-        <%= render Post.where(name: user.name) %>
-      </ul>
+      <img src="<%=@user.pic_url %>" alt="User Avatar">
+<!--      <ul>-->
+        <%#= render Post.where(name: user.username) %>
+<!--      </ul>-->
     </li>
   <% end %>
 </ul>

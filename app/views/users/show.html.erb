@@ -1,5 +1,7 @@
-<h1><%= @user.name %></h1>
+<h1><%= @user.username %></h1>
 Joined in <%= @user.created_at %>, uid: <%= @user.id %><br>
+
+<img src="<%=@user.pic_url %>" alt="User Avatar">
 
 <%= link_to "Edit", edit_user_path(@user) %> | <%= link_to "Destroy", user_path(@user), data: {
   turbo_method: :delete,
@@ -11,7 +13,7 @@ Joined in <%= @user.created_at %>, uid: <%= @user.id %><br>
 Last Modify at <%= @user.updated_at %>
 
 <h2>New Post</h2>
-<%= link_to "Create New Post", new_post_path %>
+<%#= link_to "Create New Post", new_post_path %>
 
 <h2>Posts</h2>
-<%= render(@posts) || "This user doesn't have any post. " %>
+<%#= render(@posts) || "This user doesn't have any post. " %>

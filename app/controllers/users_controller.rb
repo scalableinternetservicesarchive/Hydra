@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @posts = Post.where(name: @user.name)
+    # @posts = Post.where(name: @user.name)
   end
 
   def new
@@ -14,11 +14,11 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    post = Post.new(body: "This is my first post!", likes: 0, name: @user.name)
+    # post = Post.new(body: "This is my first post!", likes: 0, name: @user.name)
     session[:user_id] = @user.id
 
     if @user.save
-      post.save
+      # post.save
       current_user
       log_in @user
       flash[:notice] = "Account created successfully!"
@@ -52,6 +52,6 @@ class UsersController < ApplicationController
 
   private
   def user_params
-    params.require(:user).permit(:name, :password, :about, :email, :avatar)
+    params.require(:user).permit(:username, :password_digest, :about, :email, :pic_url)
   end
 end
