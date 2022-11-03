@@ -1,0 +1,18 @@
+<h1>Users</h1>
+
+Our twitter has <%= User.count %> users!
+<h2>Register now!</h2>
+<%= link_to "New User", new_user_path %>
+
+<h2>User List</h2>
+<ul>
+  <% @users.each do |user| %>
+    <li>
+      <%= link_to user.name, user %><br>
+      <%= user.about %><br>
+      <ul>
+        <%= render Post.where(name: user.name) %>
+      </ul>
+    </li>
+  <% end %>
+</ul>
