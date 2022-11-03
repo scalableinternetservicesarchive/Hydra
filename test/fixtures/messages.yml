@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  from_user: one
+  to_user: one
+  message: MyText
+  date: 2022-11-03 00:15:40
+
+two:
+  from_user: two
+  to_user: two
+  message: MyText
+  date: 2022-11-03 00:15:40

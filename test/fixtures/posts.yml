@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  groupid: 1
+  message: MyText
+  date: 2022-11-02 23:47:32
+
+two:
+  user: two
+  groupid: 1
+  message: MyText
+  date: 2022-11-02 23:47:32
