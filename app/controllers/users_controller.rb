@@ -10,15 +10,16 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
+    @post = Post.new
   end
 
   def create
     @user = User.new(user_params)
-    # post = Post.new(body: "This is my first post!", likes: 0, name: @user.name)
+    # @user.posts = Post.new(message: "This is my first post!")
     session[:user_id] = @user.id
 
     if @user.save
-      # post.save
+      # @user.posts.save
       current_user
       log_in @user
       flash[:notice] = "Account created successfully!"
