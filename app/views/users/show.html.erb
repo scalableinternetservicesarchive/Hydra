@@ -13,7 +13,9 @@ Joined in <%= @user.created_at %>, uid: <%= @user.id %><br>
 Last Modify at <%= @user.updated_at %>
 
 <h2>New Post</h2>
-<%#= link_to "Create New Post", new_post_path %>
+<%= link_to "Create New Post", new_post_path %>
 
 <h2>Posts</h2>
-<%#= render(@posts) || "This user doesn't have any post. " %>
+<% @user.posts.each do |post| %>
+  <%= render post %>
+<% end %>
