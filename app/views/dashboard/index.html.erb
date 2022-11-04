@@ -1,6 +1,12 @@
 <h1>Dashboard</h1>
 
-<p>new post</p>
+<h2>New Post</h2>
+<%= link_to "Create New Post", new_post_path %>
+
+<h2>Posts</h2>
+<% @user.posts.each do |post| %>
+  <%= render post %>
+<% end %>
 
 <h3>Recommended Users</h3>
 <ul>
@@ -25,5 +31,4 @@
     </li>
   <% end %>
 </ul>
-
 

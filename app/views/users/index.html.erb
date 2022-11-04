@@ -1,19 +1,10 @@
-<h1>Users</h1>
-
-Our twitter has <%= User.count %> users!
-<h2>Register now!</h2>
-<%= link_to "New User", new_user_path %>
+Hydra has <%= User.count %> users!
 
 <h2>User List</h2>
 <ul>
   <% @users.each do |user| %>
     <li>
       <%= link_to user.username, user %><br>
-      <%= user.about %><br>
-      <img src="<%= user.pic_url %>" alt="User Avatar">
-<!--      <ul>-->
-        <%#= render Post.where(name: user.username) %>
-<!--      </ul>-->
     </li>
   <% end %>
 </ul>
