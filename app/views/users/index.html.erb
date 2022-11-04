@@ -10,7 +10,7 @@ Our twitter has <%= User.count %> users!
     <li>
       <%= link_to user.username, user %><br>
       <%= user.about %><br>
-      <img src="<%=@user.pic_url %>" alt="User Avatar">
+      <img src="<%= user.pic_url %>" alt="User Avatar">
 <!--      <ul>-->
         <%#= render Post.where(name: user.username) %>
 <!--      </ul>-->

@@ -3,8 +3,8 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.find_by(name: params[:session][:name])
-    if user && user.authenticate(params[:session][:password])
+    user = User.find_by(name: params[:session][:username])
+    if user && user.authenticate(params[:session][:password_digest])
       # puts " ++DEBUG++ into_login?"
       current_user
       log_in(user)
