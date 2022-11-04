@@ -15,9 +15,9 @@ class GroupsController < ApplicationController
 
     def create
         begin
-            user = User.find(group_params[:user_id].to_i)
+            user = current_user()
         rescue
-            flash.alert = "User not found."
+            flash.alert = "User information unknown. Did you login?"
             redirect_to new_group_path and return
         end
 
@@ -63,7 +63,7 @@ class GroupsController < ApplicationController
 
     private
       def group_params
-        params.require(:group).permit(:groupname, :pic_url, :user_id)
+        params.require(:group).permit(:groupname, :pic_url)
       end
 
 end

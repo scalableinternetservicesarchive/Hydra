@@ -2,22 +2,21 @@
 
 <img src="<%=@group.pic_url %>" alt="Group picture">
 
-<h2>All Users in Group</h2>
+<h2>Users in Group</h2>
 <ul>
   <% @group_user.each do |g_u| %>
     <li>
-    <%= g_u.user.username %>
-    <%#= link_to g_u.user.username, g_u.user %>
+    <%#= g_u.user.username %>
+    <%= link_to g_u.user.username, g_u.user %>
     </li>
   <% end %>
 </ul>
 
-<h2>All Group Posts</h2>
+<h2>Group Posts</h2>
 <ul>
   <% @posts.each do |post| %>
     <li>
-    <%= post.message %>
-    <%#= link_to g_u.user.username, g_u.user %>
+    <%= link_to post.message, post_path(post) %>
     </li>
   <% end %>
 </ul>

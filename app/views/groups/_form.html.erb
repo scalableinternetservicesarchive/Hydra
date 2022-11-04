@@ -15,15 +15,12 @@
     <% end %>
   </div>
 
-  <div>
-    <%= form.label :user_id, "Admin User ID" %><br>
-    <%= form.text_field :user_id %><br>
-    <% flash.each do |type, msg| %>
-      <div>
-        <%= msg %>
-      </div>
-    <% end %>
-  </div>
+  
+  <% flash.each do |type, msg| %>
+    <div>
+      <%= msg %>
+    </div>
+  <% end %>
 
   <div>
     <%= form.submit %>
