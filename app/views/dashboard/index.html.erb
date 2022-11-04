@@ -1,2 +1,27 @@
 <h1>Dashboard</h1>
-<p>This is a dashboard template</p>
+
+<h3>Recommended Users</h3>
+<ul>
+  <% @users.each do |user| %>
+    <li>
+      <img src="<%= user.pic_url %>" alt="User Avatar">
+        <%#= render Post.where(name: user.username) %>
+        <%= link_to user.username, user %>
+        <p>newest post of this user</p>
+    </li>
+  <% end %>
+</ul>
+
+<h3>Recommended Groups</h3>
+<ul>
+  <% @groups.each do |group| %>
+    <li>
+      <img src="<%= group.pic_url %>" alt="Group Avatar">
+        <%#= render Post.where(name: group.groupname) %>
+        <%= link_to group.groupname, group %>
+        <p>newest post of this user</p>
+    </li>
+  <% end %>
+</ul>
+
+
