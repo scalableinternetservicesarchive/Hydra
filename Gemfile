@@ -63,5 +63,7 @@ group :development do
 # appendix
 gem "nokogiri"
 
+gem 'bcrypt', '~> 3.1.11'
+
 end
 

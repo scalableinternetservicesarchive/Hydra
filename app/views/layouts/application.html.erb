@@ -11,10 +11,14 @@
     <header class="navbar navbar-fixed-top navbar-inverse">
       <div class="container">
         <nav>
+          <ul class="nav navbar-nav navbar-left">
+            <li><%= link_to "User",   users_path %></li>
+            <li><%= link_to "Group",  '#' %></li>
+          </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><%= link_to "Home",   '#' %></li>
+            <li><%= link_to "Home",   root_path %></li>
             <li><%= link_to "Help",   '#' %></li>
-            <li><%= link_to "Log in", '#' %></li>
+            <li><%= link_to "Log in", login_path %></li>
           </ul>
         </nav>
       </div>
