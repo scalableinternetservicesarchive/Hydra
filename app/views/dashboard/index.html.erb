@@ -1,6 +1,6 @@
 <h1>Dashboard</h1>
 
-<p>new post</p>
+<%= link_to "New Post", new_post_path %>
 
 <h3>Recommended Users</h3>
 <ul>
@@ -9,7 +9,10 @@
       <img src="<%= user.pic_url %>" alt="User Avatar">
         <%#= render Post.where(name: user.username) %>
         <%= link_to user.username, user %>
-        <p>latest post of this user</p>
+        <br><br>
+        <p><%= user.posts.first.message %></p>
+        Modified at <%= user.posts.first.updated_at %>, pid: <%= user.posts.first.id %>
+      <br><br> 
     </li>
   <% end %>
 </ul>
