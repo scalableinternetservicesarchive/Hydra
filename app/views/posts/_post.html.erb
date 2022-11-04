@@ -1,0 +1,9 @@
+<p>
+  <strong>Posted at:</strong>
+  <%= post.created_at %>
+</p>
+
+<p>
+  <%= link_to "Post:", post_path(post) %>
+  <%= post.message %>
+</p>

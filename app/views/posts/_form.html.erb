@@ -1,0 +1,29 @@
+<%= form_with model: post do |form| %>
+  <div>
+    <%= form.label :message %><br>
+    <%= form.text_area :message %>
+    <% post.errors.full_messages_for(:message).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :user_id %>
+    <%= form.number_field :user_id %>
+    <% post.errors.full_messages_for(:message).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.label :groupid %>
+    <%= form.number_field :groupid %>
+    <% post.errors.full_messages_for(:message).each do |message| %>
+      <div><%= message %></div>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
