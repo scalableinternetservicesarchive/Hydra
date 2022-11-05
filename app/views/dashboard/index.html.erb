@@ -10,9 +10,11 @@
         <%#= render Post.where(name: user.username) %>
         <%= link_to user.username, user %>
         <br><br>
+      <% if user.posts.first %>
         <p><%= user.posts.first.message %></p>
         Modified at <%= user.posts.first.updated_at %>, pid: <%= user.posts.first.id %>
       <br><br> 
+    <% end %>
     </li>
   <% end %>
 </ul>
