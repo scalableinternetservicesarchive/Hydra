@@ -5,5 +5,11 @@
     A social networking app
   </h2>
 
-  <%= link_to "Sign up now!", 'users/new', class: "btn btn-lg btn-primary" %>
+  <% if logged_in? %>
+    <%= "Logged in as #{session[:user_name]}" %>
+    <%= link_to "My Profile", "/users/#{session[:user_id]}", class: "btn btn-lg btn-primary" %>
+  <% else %>
+    <%= link_to "Sign in", login_path, class: "btn btn-lg btn-primary" %>
+    <%= link_to "Sign up", 'users/new', class: "btn btn-lg btn-primary" %>
+  <% end %>
 </div>
