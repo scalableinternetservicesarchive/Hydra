@@ -3,4 +3,9 @@
 <h2>Message</h2>
 <p><%= @post.message %></p>
 
+<% if current_user.id == @post.user_id %>
+  <br>
+  <%= link_to "<button class='btn btn-primary'>Edit Post</button>".html_safe, edit_post_path(@post)%>
+  <br>
+<% end %>
 Modified at <%= @post.updated_at %>, pid: <%= @post.id %><br>
