@@ -3,19 +3,14 @@
   <h4>Email: <%= @user.email %></h4>
   Joined in <%= @user.created_at %>, uid: <%= @user.id %><br>
 
-
-
-
-  <%#= 
-  | <%= link_to "Destroy", user_path(@user), data: {
-    turbo_method: :delete,
-    turbo_confirm: "Are you sure? Once the profile is deleted, the posts affiliated to this user will also be deleted!"
-  } %>
-
   <h4>About me:</h4>
   <p><%= @user.about %></p>
   <br> 
   <%= link_to "<button class='btn btn-primary'>Edit Profile</button>".html_safe, edit_user_path(@user)%>
+  <%= link_to "<button class='btn btn-primary'>Delete Profile</button>".html_safe, user_path(@user), data: {
+    turbo_method: :delete,
+    turbo_confirm: "Are you sure? Once the profile is deleted, the posts affiliated to this user will also be deleted!"
+  } %>
   <br> 
   Last Modify at <%= @user.updated_at %>
 
