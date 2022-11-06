@@ -10,7 +10,7 @@
 
   <p>
     <%= form.label :email %><br>
-    <%= form.text_field :email %>
+    <%= form.email_field :email %>
     <% user.errors.full_messages_for(:email).each do |message| %>
     <div><%= message %></div>
   <% end %>
@@ -18,8 +18,16 @@
 
   <p>
     <%= form.label :password %><br>
-    <%= form.text_field :password_digest %><br>
-    <% user.errors.full_messages_for(:password_digest).each do |message| %>
+    <%= form.password_field :password %><br>
+    <% user.errors.full_messages_for(:password).each do |message| %>
+    <div><%= message %></div>
+  <% end %>
+  </p>
+
+  <p>
+    <%= form.label :password_confirmation, "Confirmation" %><br>
+    <%= form.password_field :password_confirmation %><br>
+    <% user.errors.full_messages_for(:password_confirmation).each do |message| %>
     <div><%= message %></div>
   <% end %>
   </p>
@@ -41,6 +49,6 @@
   </p>
 
   <div>
-    <%= form.submit %>
+    <%= form.submit "Create my account", class: "btn btn-primary" %>
   </div>
 <% end %>
