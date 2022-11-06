@@ -26,7 +26,7 @@
       <img src="<%= group.pic_url %>" alt="Group Avatar">
         <%#= render Post.where(name: group.groupname) %>
         <%= link_to group.groupname, group %>
-        <p>latest post of this group</p>
+        <p><%#= group.posts.first.message %></p>
     </li>
   <% end %>
 </ul>
