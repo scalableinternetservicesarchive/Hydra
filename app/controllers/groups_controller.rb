@@ -1,4 +1,6 @@
 class GroupsController < ApplicationController
+    include AccessControlConcern
+    
     def index
         @groups = Group.all
     end

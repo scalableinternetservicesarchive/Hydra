@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  include AccessControlConcern
+
   def index
     @users = User.all
   end
