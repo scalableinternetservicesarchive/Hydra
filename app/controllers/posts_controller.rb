@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-
+  include AccessControlConcern
   require 'date'
 
   def index
