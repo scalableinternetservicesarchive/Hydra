@@ -1,0 +1,23 @@
+<h1>Messages</h1>
+
+
+<% @users.each do |user| %>
+  <li> Contact: <%= user.id %>
+    <% chat = [] %>
+    <% @messages.each  do |message| %>
+      <% if message.to_user_id.eql? user.id %>
+        <% chat.push(message)%>
+      <% elsif message.from_user_id.eql? user.id %>
+        <% chat.push(message)%>
+      <% end %>
+    <% end %>
+    <% chat = chat.sort_by{|msg| [ msg.created_at ]} %>
+
+    <% chat.each do |item| %>
+      <ul>
+        <%= item.message %>
+      </ul>
+    <% end %>
+  </li>
+<% end %>
+
