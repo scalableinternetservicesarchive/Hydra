@@ -2,7 +2,7 @@
 
 <img src="<%=@group.pic_url %>" alt="Group picture">
 
-<%= link_to "Join #{@group.groupname}", login_path, class: "btn btn-lg btn-primary" %>
+<%= link_to "Join #{@group.groupname}", '/joingroup', params: params.merge({ :gid => @group.id }), class: "btn btn-lg btn-primary" %>
 
 <h2>Users in Group</h2>
 <ul>
