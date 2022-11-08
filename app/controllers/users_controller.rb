@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  include AccessControlConcern
+  before_action :require_login, :except => [:new, :create]
 
   def index
     @users = User.all
@@ -56,5 +56,12 @@ class UsersController < ApplicationController
   private
   def user_params
     params.require(:user).permit(:username, :password, :password_confirmation, :about, :email, :pic_url)
+  end
+
+  private
+  def require_login
+    unless logged_in?
+      redirect_to root_url
+    end
   end
 end
