@@ -8,13 +8,6 @@
   </div>
 
 
-  <div>
-    <%= form.label :groupid %>
-    <%= form.number_field :groupid %>
-    <% post.errors.full_messages_for(:message).each do |message| %>
-      <div><%= message %></div>
-    <% end %>
-  </div>
 
   <div>
     <%= form.submit %>

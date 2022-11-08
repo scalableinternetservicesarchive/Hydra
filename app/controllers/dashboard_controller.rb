@@ -4,7 +4,7 @@ class DashboardController < ApplicationController
   def index
     @users = User.all
     @groups = Group.all
-    @posts = Post.all
+    @posts = Post.where(groupid: 0)
     @post =Post.new
   end
 end
