@@ -17,5 +17,8 @@ class GroupUsersController < ApplicationController
 
   end
 
+  def leave
+
+  end
 
 end

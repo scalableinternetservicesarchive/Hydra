@@ -15,10 +15,10 @@ Rails.application.routes.draw do
   post    '/login'   =>  'sessions#create'
   get     '/logout'  =>  'sessions#destroy'
   get     '/joingroup'=> 'group_users#join'
+  get     '/leavegroup'=>'group_users#leave'
   resources :users
   resources :groups
   resources :posts
-  resources :group_users
 
   
 end
