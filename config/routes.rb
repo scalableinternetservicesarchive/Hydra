@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'group_users/new'
+  get 'group_users/create'
   get '/dashboard', to: 'dashboard#index'
   get 'dashboard/index'
   get 'users/new'
@@ -15,6 +17,7 @@ Rails.application.routes.draw do
   resources :users
   resources :groups
   resources :posts
+  resources :group_users
 
   
 end
