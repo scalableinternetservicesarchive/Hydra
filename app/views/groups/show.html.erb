@@ -26,6 +26,17 @@
     </li>
   <% end %>
 </ul>
+<h2>New Group Post</h2>
+<%= form_for @post do |f| %>
+  <div>
+    <%= f.label :message %><br>
+    <%= f.text_area :message %>
+  </div>
+  <div>
+    <%= f.hidden_field :groupid, :value => @group.id %>
+    <%= f.submit "Submit" %>
+  </div>
+<% end %>
 
 <h2>Other Actions</h2>
 <ul>
