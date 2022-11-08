@@ -2,6 +2,8 @@
 
 <img src="<%=@group.pic_url %>" alt="Group picture">
 
+<%= link_to "Join #{@group.groupname}", login_path, class: "btn btn-lg btn-primary" %>
+
 <h2>Users in Group</h2>
 <ul>
   <% @group_user.each do |g_u| %>
