@@ -28,7 +28,13 @@ class PostsController < ApplicationController
     # @user = User.find(params[:user_id])
 
     time = Time.new
-    @post = Post.create(message: post_params[:message], user_id: current_user.id, groupid: post_params[:groupid], date: time)
+    # @post = Post.create(message: post_params[:message], user_id: current_user.id, groupid: post_params[:groupid], date: time)
+    @post = Post.new(post_params)
+    @post.user_id = current_user.id
+    @post.message = post_params[:message]
+    @post.groupid = params[:groupid] || post_params[:groupid]
+    @post.date = time
+
 
     if @post.save
       puts " ++DEBUG++ post_save?"

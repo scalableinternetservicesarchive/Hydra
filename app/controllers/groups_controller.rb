@@ -8,6 +8,7 @@ class GroupsController < ApplicationController
     def show
         @group = Group.find(params[:id]) rescue not_found
         @group_user = GroupUser.where(group_id:params[:id])
+        @post = Post.new
         @posts = Post.where(groupid:params[:id])
     end
 
