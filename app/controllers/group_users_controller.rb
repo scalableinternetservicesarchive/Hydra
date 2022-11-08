@@ -13,12 +13,14 @@ class GroupUsersController < ApplicationController
       flash[:notice] = "Oops, couldn't join at this point. Please try again later."
     end
 
-    redirect_to current_user
+    redirect_to "/groups/#{params[:gid]}"
 
   end
 
   def leave
+    GroupUser.where(user_id: current_user.id, group_id: params[:gid]).destroy_all
 
+    redirect_to "/groups/#{params[:gid]}"
   end
 
 end

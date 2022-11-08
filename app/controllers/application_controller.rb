@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
 
   include SessionsHelper
 
-  helper_method :current_user
+  helper_method :current_user, :in_group?
 
   def current_user
     # Look up the current user based on user_id in the session cookie:
@@ -11,6 +11,11 @@ class ApplicationController < ActionController::Base
   
   def not_found
     raise ActionController::RoutingError.new('Not Found! Are you sure you entered a valid path?')
+  end
+
+  # Group stuff:
+  def in_group?(group)
+    GroupUser.where(user_id: current_user.id, group_id: group.id).exists?
   end
 
 end
