@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :require_login, :except => [:new, :create]
+  before_action :require_login, :except => [:new, :create, :index]
 
   def index
     @users = User.all
@@ -61,7 +61,8 @@ class UsersController < ApplicationController
   private
   def require_login
     unless logged_in?
-      redirect_to root_url
+      flash[:alert]= "Please log in to view the requested page"
+      redirect_to users_path
     end
   end
 end
