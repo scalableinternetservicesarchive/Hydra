@@ -8,6 +8,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     # @posts = Post.where(name: @user.name)
+    @groupusers = GroupUser.where(user_id: @user.id)
   end
 
   def new
