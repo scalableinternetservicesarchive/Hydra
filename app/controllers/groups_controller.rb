@@ -1,5 +1,6 @@
 class GroupsController < ApplicationController
     include AccessControlConcern
+    before_action :require_login, :except => [ :index ]
     
     def index
         @groups = Group.all
@@ -18,7 +19,7 @@ class GroupsController < ApplicationController
 
     def create
         begin
-            user = current_user()
+            user = current_user
         rescue
             flash.alert = "User information unknown. Did you login?"
             redirect_to new_group_path and return

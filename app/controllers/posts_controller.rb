@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   include AccessControlConcern
+  before_action :require_login, :except => [ :index ]
   require 'date'
 
   def index
