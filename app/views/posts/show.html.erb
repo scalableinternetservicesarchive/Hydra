@@ -10,3 +10,27 @@
   <br>
 <% end %>
 Modified at <%= @post.updated_at %>, pid: <%= @post.id %><br>
+
+<h2>Comments</h2>
+<% @post.comments.each do |comment| %>
+  <p>
+    <strong>User:</strong>
+    <%= comment.user_id %>
+  </p>
+
+  <p>
+    Comment:
+    <%= comment.comment %>
+  </p>
+<% end %>
+
+<h4>Add a comment:</h4>
+<%= form_with model: [@post, @post.comments.build] do |form| %>
+  <p>
+    <%= form.label :comment %><br>
+    <%= form.text_area :comment %>
+  </p>
+  <p>
+    <%= form.submit %>
+  </p>
+<% end %>
