@@ -6,9 +6,9 @@
     <li>
       <%= link_to user.username, user_path(user) %>
       <% if group_contains_user?(@group, user) %>
-        <%= link_to "Sign up", 'users/new', class: "btn btn-lg btn-primary" %>
+        <%= link_to "-", "/addtogroup?uid=#{user.id}&gid=#{@group.id}", class: "btn btn-lg btn-primary" %>
       <% else %>
-
+        <%= link_to "+", "/delfromgroup?uid=#{user.id}&gid=#{@group.id}", class: "btn btn-lg btn-primary" %>
       <% end %>
     </li>
   <% end %>

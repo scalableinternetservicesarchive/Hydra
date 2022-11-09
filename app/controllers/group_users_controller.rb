@@ -32,20 +32,14 @@ class GroupUsersController < ApplicationController
     uid = params[:uid]
     gid = params[:gid]
 
-    @group_user = User.new(user_params)
-    # @user.posts = Post.new(message: "I am #{@user.username}, This is my first post!", groupid: 0)
+    @group_user = GroupUser.new(user_id: uid, group_id: gid)
 
-    if @user.save
-      # @user.posts.save
-      log_in @user
-
-      logger.info "++DEBUG++ Logged in? #{logged_in?}"
-      flash[:notice] = "Account created successfully!"
-      redirect_to current_user
+    if @group_user.save
+      flash[:notice] = "Successfully add user to group!"
     else
-      flash[:notice] = "Oops, couldn't create account. Please make sure you are using a valid name and password and try again."
-      render :new, status: :unprocessable_entity
+      flash[:notice] = "Oops, cannot finish the operation. Please try again later."
     end
+    redirect_to groupusers_path(:uid => uid, :gid => gid)
   end
 
 end
