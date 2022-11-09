@@ -26,9 +26,8 @@ class GroupsController < ApplicationController
         end
 
         @group = Group.new(groupname:group_params[:groupname],pic_url:group_params[:pic_url])
-
         if @group.save
-            @group_user = GroupUser.new(group_id:@group.id,user_id:user.id)
+            @group_user = GroupUser.new(group_id:@group.id,user_id:user.id,permission:True)
             if @group_user.save
                 redirect_to group_path(@group)
             else
