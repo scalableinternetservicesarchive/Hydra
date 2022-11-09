@@ -19,16 +19,18 @@
   <% end %>
 </ul>
 
-<h2>Group Posts</h2>
-<ul>
-  <% @posts.each do |post| %>
-    <li>
-    <%= link_to post.message, post_path(post) %>
-    </li>
-  <% end %>
-</ul>
 
 <% if group_contains_user?(@group, current_user) %>
+
+  <h2>Group Posts</h2>
+  <ul>
+    <% @posts.each do |post| %>
+      <li>
+        <%= link_to post.message, post_path(post) %>
+      </li>
+    <% end %>
+  </ul>
+
   <h2>New Group Post</h2>
   <%= form_for @post do |f| %>
     <div>
@@ -40,6 +42,7 @@
       <%= f.submit "Submit" %>
     </div>
   <% end %>
+
 <% end %>
 
 <h2>Other Actions</h2>
