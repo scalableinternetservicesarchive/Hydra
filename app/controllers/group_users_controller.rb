@@ -5,6 +5,7 @@ class GroupUsersController < ApplicationController
     group_user = GroupUser.new
     group_user.user_id = current_user.id
     group_user.group_id = params[:gid]
+    group_user.permission = False
     logger.info "++DEBUG++ PARAMS: #{params[:gid]}"
 
     if group_user.save
@@ -32,7 +33,7 @@ class GroupUsersController < ApplicationController
     uid = params[:uid]
     gid = params[:gid]
 
-    @group_user = GroupUser.new(user_id: uid, group_id: gid)
+    @group_user = GroupUser.new(user_id: uid, group_id: gid,permission:False)
 
     if @group_user.save
       flash[:notice] = "Successfully add user to group!"
