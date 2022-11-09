@@ -2,7 +2,14 @@
 
 <img src="<%=@group.pic_url %>" alt="Group picture">
 
+<% if logged_in? && in_group?(@group) %>
+  <%= link_to "Leave #{@group.groupname}", "/leavegroup?gid=#{@group.id}", class: "btn btn-lg btn-primary" %>
+<% elsif logged_in? %>
+  <%= link_to "Join #{@group.groupname}", "/joingroup?gid=#{@group.id}", class: "btn btn-lg btn-primary" %>
+<% end %>
+
 <h2>Users in Group</h2>
+<%= link_to "+/-", groupusers_path(:gid => @group.id) ,class: "btn btn-lg btn-primary" %>
 <ul>
   <% @group_user.each do |g_u| %>
     <li>
