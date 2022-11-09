@@ -9,6 +9,7 @@
 <% end %>
 
 <h2>Users in Group</h2>
+<%= link_to "+/-", groupusers_path(:gid => @group.id) ,class: "btn btn-lg btn-primary" %>
 <ul>
   <% @group_user.each do |g_u| %>
     <li>

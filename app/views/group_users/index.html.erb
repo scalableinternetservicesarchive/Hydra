@@ -1,4 +1,4 @@
-<h1>Manage members of group <%= @group.groupname %>></h1>
+<h1>Manage members of group <%= @group.groupname %></h1>
 
 <h2>User Lists</h2>
 <ul>
@@ -18,4 +18,4 @@
   <% end %>
 </ul>
 
-<%= link_to "New Group", new_group_path %>
+<%= link_to "Return to Group", group_path(@group) %>

@@ -39,7 +39,16 @@ class GroupUsersController < ApplicationController
     else
       flash[:notice] = "Oops, cannot finish the operation. Please try again later."
     end
-    redirect_to groupusers_path(:uid => uid, :gid => gid)
+    redirect_to groupusers_path(:gid => gid)
+  end
+
+  def destroy
+    uid = params[:uid]
+    gid = params[:gid]
+
+    GroupUser.where(user_id: uid, group_id: gid).destroy_all
+
+    redirect_to groupusers_path(:gid => gid)
   end
 
 end
