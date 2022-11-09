@@ -1,5 +1,6 @@
 class GroupsController < ApplicationController
     include AccessControlConcern
+    before_action :require_login, :except => [ :index ]
     
     def index
         @groups = Group.all
