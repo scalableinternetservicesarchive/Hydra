@@ -19,32 +19,40 @@
   <% end %>
 </ul>
 
-<h2>Group Posts</h2>
-<ul>
-  <% @posts.each do |post| %>
-    <li>
-    <%= link_to post.message, post_path(post) %>
-    </li>
+
+<% if group_contains_user?(@group, current_user) %>
+
+  <h2>Group Posts</h2>
+  <ul>
+    <% @posts.each do |post| %>
+      <li>
+        <%= link_to post.message, post_path(post) %>
+      </li>
+    <% end %>
+  </ul>
+
+  <h2>New Group Post</h2>
+  <%= form_for @post do |f| %>
+    <div>
+      <%= f.label :message %><br>
+      <%= f.text_area :message %>
+    </div>
+    <div>
+      <%= f.hidden_field :groupid, :value => @group.id %>
+      <%= f.submit "Submit" %>
+    </div>
   <% end %>
-</ul>
-<h2>New Group Post</h2>
-<%= form_for @post do |f| %>
-  <div>
-    <%= f.label :message %><br>
-    <%= f.text_area :message %>
-  </div>
-  <div>
-    <%= f.hidden_field :groupid, :value => @group.id %>
-    <%= f.submit "Submit" %>
-  </div>
+
 <% end %>
 
 <h2>Other Actions</h2>
 <ul>
-  <li><%= link_to "Edit Group", edit_group_path(@group) %></li>
-  <li><%= link_to "Delete Group", group_path(@group), data: {
-                    turbo_method: :delete,
-                    turbo_confirm: "Are you sure? All users in the group will be unaffiliated with the group. All group posts will be deleted."
-                  } %></li>
+  <% if group_contains_user?(@group, current_user) %>
+    <li><%= link_to "Edit Group", edit_group_path(@group) %></li>
+    <li><%= link_to "Delete Group", group_path(@group), data: {
+                      turbo_method: :delete,
+                      turbo_confirm: "Are you sure? All users in the group will be unaffiliated with the group. All group posts will be deleted."
+                    } %></li>
+  <% end %>
   <li><%= link_to "All Groups", groups_path %></li>
 </ul>

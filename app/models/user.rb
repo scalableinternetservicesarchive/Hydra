@@ -7,6 +7,8 @@ class User < ApplicationRecord
   VALID_EMAIL_REGEX = /\A\S+@.+\.\S+\z/
   validates :email, presence: true, length: { maximum: 255 }, format: { with: VALID_EMAIL_REGEX }, uniqueness: true
   validates :pic_url, presence: true
+  VALID_STATUSES = %w[online offline invisible busy]
+  validates :status, inclusion: { in: VALID_STATUSES }
 
   has_secure_password
   validates :password, presence: true
