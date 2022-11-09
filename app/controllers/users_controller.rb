@@ -18,6 +18,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    @user.status = 'offline'
     # @user.posts = Post.new(message: "I am #{@user.username}, This is my first post!", groupid: 0)
 
     if @user.save

@@ -23,6 +23,7 @@
             <li><%= link_to "Home",   root_url %></li>
             <% if logged_in? %>
               <li><%= link_to session[:user_name], "/users/#{session[:user_id]}" %></li>
+              <li><%= link_to session[:status].capitalize, "#" %></li>
               <li><%= link_to "Log out", logout_path %></li>
             <% else %>
               <li><%= link_to "Sign in", login_path %></li>
