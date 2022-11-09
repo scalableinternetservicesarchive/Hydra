@@ -16,6 +16,9 @@ Rails.application.routes.draw do
   get     '/logout'  =>  'sessions#destroy'
   get     '/joingroup'=> 'group_users#join'
   get     '/leavegroup'=>'group_users#leave'
+  get     '/addtogroup'=>'group_users#create'
+  get     '/delfromgroup'=>'group_users#destroy'
+  get     '/groupusers'=>'group_users#index'
   resources :users
   resources :groups
   resources :posts
