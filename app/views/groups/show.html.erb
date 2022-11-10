@@ -17,8 +17,9 @@
     </li>
   <% end %>
 </ul>
-<%= link_to "+/-", groupusers_path(:gid => @group.id) ,class: "btn btn-lg btn-primary" %>
-
+<% if user_can_edit_group?(@group, current_user) %>
+  <%= link_to "+/-", groupusers_path(:gid => @group.id) ,class: "btn btn-lg btn-primary" %>
+<% end %>
 
 <% if group_contains_user?(@group, current_user) %>
 
