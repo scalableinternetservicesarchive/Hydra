@@ -21,7 +21,9 @@ Rails.application.routes.draw do
   get     '/groupusers'=>'group_users#index'
   resources :users
   resources :groups
-  resources :posts
+  resources :posts do
+    resources :comments
+  end
 
   
 end
