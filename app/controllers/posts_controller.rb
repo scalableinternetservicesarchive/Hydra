@@ -4,7 +4,14 @@ class PostsController < ApplicationController
   require 'date'
 
   def index
-    @posts = Post.all
+    # display posts which are public (has group_id:nil), or are part of a group the user belongs to
+    group_user = GroupUser.where(user_id:current_user.id)
+    arr = [nil]
+    for g_u in group_user do
+      arr.push(g_u.group_id)
+    end
+    @posts = Post.where(groupid:arr)
+    # @posts = Post.all
     @post = Post.new
   end
 
