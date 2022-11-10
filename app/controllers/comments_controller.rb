@@ -7,11 +7,13 @@ class CommentsController < ApplicationController
     @post = Post.find(params[:post_id])
     #user = current_user.id
     #@user = User.find(current_user.id)
-    @comment = Comment.new(comment_params)
+    @comment = @post.comments.build(comment_params)
     @comment.user_id = current_user.id
     @comment.post_id = params[:post_id]
     @comment.date = time
-    @comment.comment = [:comment]
+    @comment.comment = comment_params[:comment]
+    @comment.save
+    #@comment = @post.comments.create(comment: comment_params[])
     redirect_to post_path(@post)
   end
 

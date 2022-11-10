@@ -12,7 +12,7 @@
 Modified at <%= @post.updated_at %>, pid: <%= @post.id %><br>
 
 <h2>Comments</h2>
-<% @post.comments.each do |comment| %>
+<% @post.comments.order("date desc").each do |comment| %>
   <p>
     <strong>User:</strong>
     <%= comment.user_id %>
@@ -22,6 +22,7 @@ Modified at <%= @post.updated_at %>, pid: <%= @post.id %><br>
     Comment:
     <%= comment.comment %>
   </p>
+  Modified at <%= comment.updated_at %> <br><br>
 <% end %>
 
 <h4>Add a comment:</h4>
