@@ -18,12 +18,13 @@ class PostsController < ApplicationController
   def show
     @post = Post.find(params[:id])
     @user = User.find(current_user.id)
+    #@comment = Comment.new
   end
 
   def new
     # @user = User.find(params[:user_id])
     @post = Post.new
-    # @comment = Comment.new
+    #@comment = Comment.new
   end
 
   def create

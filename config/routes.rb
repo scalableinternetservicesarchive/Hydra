@@ -23,7 +23,9 @@ Rails.application.routes.draw do
   get     '/transferownership'=>'group_users#transferownership'
   resources :users
   resources :groups
-  resources :posts
+  resources :posts do
+    resources :comments
+  end
 
   
 end

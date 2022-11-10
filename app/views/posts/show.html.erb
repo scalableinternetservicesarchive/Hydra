@@ -10,3 +10,9 @@
   <br>
 <% end %>
 Modified at <%= @post.updated_at %>, pid: <%= @post.id %><br>
+
+<h2>Comments</h2>
+<%= render @post.comments.order("date desc") %>
+
+<h4>Add a comment:</h4>
+<%= render 'comments/form' %>
