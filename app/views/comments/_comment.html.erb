@@ -1,0 +1,19 @@
+  <p>
+    <strong>User:</strong>
+    <%= comment.user_id %>
+  </p>
+
+  <p>
+    Comment:
+    <%= comment.comment %>
+  </p>
+  <% if current_user.id == comment.user_id %>
+    <p>
+    <%= link_to "<button class='btn btn-primary'>Delete</button>".html_safe, [comment.post, comment], data: {
+                  turbo_method: :delete,
+    } %>
+    </p>
+<% end %>
+
+  Modified at <%= comment.updated_at %> <br><br>
+
