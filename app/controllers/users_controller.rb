@@ -49,10 +49,12 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user = User.find(params[:id])
-    @user.destroy
-
-    redirect_to users_path, status: :see_other
+    uid = params[:uid]
+    logger.info "++DEBUG++ profile deletion requested by uid #{uid}"
+    User.where(id: uid).destroy_all
+    log_out
+    flash[:alert]= "Profile deleted"
+    redirect_to root_url
   end
 
   private
