@@ -1,0 +1,18 @@
+<h1>Transfer Ownership <%= @group.groupname %></h1>
+
+<h2>User Lists</h2>
+<ul>
+  <% @group_user.each do |g_u| %>
+    <li>
+      <%= link_to g_u.user.username, user_path(g_u.user) %>
+      <% if g_u.user == current_user %>
+        Yourself
+      <% else %>
+        <%#= link_to "-", "/delfromgroup?uid=#{user.id}&gid=#{@group.id}", class: "btn btn-lg btn-primary" %>
+        <%= link_to "o", transferownership_path(:fromuid => current_user.id, :gid => @group.id, :touid => g_u.user.id), class: "btn btn-lg btn-primary" %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to "Return to Group", group_path(@group) %>

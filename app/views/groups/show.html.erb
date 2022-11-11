@@ -9,7 +9,6 @@
 <% end %>
 
 <h2>Users in Group</h2>
-<%= link_to "+/-", groupusers_path(:gid => @group.id) ,class: "btn btn-lg btn-primary" %>
 <ul>
   <% @group_user.each do |g_u| %>
     <li>
@@ -18,7 +17,9 @@
     </li>
   <% end %>
 </ul>
-
+<% if user_can_edit_group?(@group, current_user) %>
+  <%= link_to "+/-", groupusers_path(:gid => @group.id) ,class: "btn btn-lg btn-primary" %>
+<% end %>
 
 <% if group_contains_user?(@group, current_user) %>
 
@@ -47,12 +48,13 @@
 
 <h2>Other Actions</h2>
 <ul>
-  <% if group_contains_user?(@group, current_user) %>
+  <% if user_can_edit_group?(@group, current_user) %>
     <li><%= link_to "Edit Group", edit_group_path(@group) %></li>
     <li><%= link_to "Delete Group", group_path(@group), data: {
                       turbo_method: :delete,
                       turbo_confirm: "Are you sure? All users in the group will be unaffiliated with the group. All group posts will be deleted."
                     } %></li>
+    <li><%= link_to "Transfer Group Ownership", editgroupuser_path(:group => @group.id) %></li>
   <% end %>
   <li><%= link_to "All Groups", groups_path %></li>
 </ul>
