@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   include AccessControlConcern
+  before_action :require_login, :except => [ :index ]
   require 'date'
 
   def index
@@ -10,12 +11,13 @@ class PostsController < ApplicationController
   def show
     @post = Post.find(params[:id])
     @user = User.find(current_user.id)
+    #@comment = Comment.new
   end
 
   def new
     # @user = User.find(params[:user_id])
     @post = Post.new
-    # @comment = Comment.new
+    #@comment = Comment.new
   end
 
   def create
@@ -28,7 +30,13 @@ class PostsController < ApplicationController
     # @user = User.find(params[:user_id])
 
     time = Time.new
-    @post = Post.create(message: post_params[:message], user_id: current_user.id, groupid: post_params[:groupid], date: time)
+    # @post = Post.create(message: post_params[:message], user_id: current_user.id, groupid: post_params[:groupid], date: time)
+    @post = Post.new(post_params)
+    @post.user_id = current_user.id
+    @post.message = post_params[:message]
+    @post.groupid = params[:groupid] || post_params[:groupid]
+    @post.date = time
+
 
     if @post.save
       puts " ++DEBUG++ post_save?"

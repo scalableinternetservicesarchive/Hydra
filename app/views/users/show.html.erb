@@ -6,12 +6,17 @@
   <h4>About me:</h4>
   <p><%= @user.about %></p>
   <br>
+  <h4>My groups:</h4>
+  <ul>
+    <% @groupusers.each do |gu| %>
+      <% group = Group.find(gu.group_id) %>
+      <li><%= link_to group.groupname, group_path(group) %></li>
+    <% end %>
+  </ul>
+  <br>
   <% if @user.id == current_user.id %>
     <%= link_to "<button class='btn btn-primary'>Edit Profile</button>".html_safe, edit_user_path(@user)%>
-    <%= link_to "<button class='btn btn-primary'>Delete Profile</button>".html_safe, user_path(@user), data: {
-      turbo_method: :delete,
-      turbo_confirm: "Are you sure? Once the profile is deleted, the posts affiliated to this user will also be deleted!"
-    } %>
+     <%= link_to "Delete Profile", deleteuser_path(:uid => @user.id), class: "btn btn btn-danger" %>
   <% end %>
   <br> 
   Last Modify at <%= @user.updated_at %>

@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'group_users/new'
+  get 'group_users/create'
   get '/dashboard', to: 'dashboard#index'
   get 'dashboard/index'
   get 'users/new'
@@ -17,9 +19,17 @@ Rails.application.routes.draw do
   get     "/messages/:userid", to: "messages#show"
   post    "/messages/:userid", to: "messages#create"
   
+  get     '/joingroup'=> 'group_users#join'
+  get     '/leavegroup'=>'group_users#leave'
+  get     '/addtogroup'=>'group_users#create'
+  get     '/delfromgroup'=>'group_users#destroy'
+  get     '/groupusers'=>'group_users#index'
+  get     '/deleteuser'=>'users#destroy'
   resources :users
   resources :groups
-  resources :posts
+  resources :posts do
+    resources :comments
+  end
 
   
 end
