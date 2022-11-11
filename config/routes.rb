@@ -14,6 +14,10 @@ Rails.application.routes.draw do
   get     '/login'   =>  'sessions#new'
   post    '/login'   =>  'sessions#create'
   get     '/logout'  =>  'sessions#destroy'
+
+  get     "/messages", to: "messages#index"
+  get     "/messages/:userid", to: "messages#show"
+  post    "/messages/:userid", to: "messages#create"
   
   get     '/joingroup'=> 'group_users#join'
   get     '/leavegroup'=>'group_users#leave'
