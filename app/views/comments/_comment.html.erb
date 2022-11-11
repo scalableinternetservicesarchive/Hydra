@@ -1,7 +1,9 @@
+<% if false %>
   <p>
     <strong>User:</strong>
     <%= comment.user_id %>
   </p>
+<% end %>
 
   <p>
     Comment:
@@ -15,5 +17,5 @@
     </p>
 <% end %>
 
-  Modified at <%= comment.updated_at %> <br><br>
+Modified at <%= comment.updated_at %>, commented by: <%= comment.user_id %> <br><br>
 
