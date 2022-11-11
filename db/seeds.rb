@@ -5,7 +5,44 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
-user = User.new(username:'testuser',password_digest:'pass')
+
+
+# User definition
+#     t.string "username"
+#     t.string "password_digest"
+#     t.string "email"
+#     t.text "about"
+#     t.string "pic_url"
+#     t.datetime "created_at", null: false
+#     t.datetime "updated_at", null: false
+#     t.string "status"
+user = User.new(username:'Amy', password:'123', password_confirmation:'123', email:'amy@example.com', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
+user.save
+user = User.new(username:'Andy', password:'123', password_confirmation:'123', email:'andy@example.com', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
+user.save
+user = User.new(username:'Bob', password:'123', password_confirmation:'123', email:'bob@example.com', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
+user.save
+user = User.new(username:'Dany', password:'123', password_confirmation:'123', email:'dany@example.com', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
+user.save
+user = User.new(username:'Lucy', password:'123', password_confirmation:'123', email:'lucy@example.com', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
+user.save
+user = User.new(username:'Sara', password:'123', password_confirmation:'123', email:'sara@example.com', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
+user.save
+user = User.new(username:'Iris', password:'123', password_confirmation:'123', email:'iris@example.com', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
+user.save
+user = User.new(username:'Ethan', password:'123', password_confirmation:'123', email:'ethan@example.com', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
+user.save
+user = User.new(username:'Mingrui Xu', password:'123', password_confirmation:'123', email:'mingrui@ucsb.edu', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
+user.save
+user = User.new(username:'Md Shafiuzzaman', password:'123', password_confirmation:'123', email:'shafi@ucsb.edu', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
+user.save
+user = User.new(username:'Luqing Cheng', password:'123', password_confirmation:'123', email:'luqing@ucsb.edu', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
+user.save
+user = User.new(username:'Zihao Su', password:'123', password_confirmation:'123', email:'zihao@ucsb.edu', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
+user.save
+user = User.new(username:'Ye Yuan', password:'123', password_confirmation:'123', email:'yeyuan@ucsb.edu', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
+user.save
+user = User.new(username:'Joyce Passananti', password:'123', password_confirmation:'123', email:'joyce@ucsb.edu', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
 user.save
 
 group = Group.new(groupname:'test group 1', pic_url:'https://i.picsum.photos/id/682/200/200.jpg?hmac=098XkPnTe9a41I6BtB9xV4t6L8c3ESkdowMLElFBR5A')
