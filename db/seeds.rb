@@ -83,6 +83,36 @@ end
   end
 end
 
+
+# Post definition
+# t.bigint "user_id", null: false
+# t.integer "groupid"
+# t.text "message"
+# t.datetime "date"
+
+
+post = Post.new(user_id:'1', groupid:'0', message:'This is a test post message')
+post = Post.new(user_id:'2', groupid:'0', message:'This is a test post message')
+post = Post.new(user_id:'3', groupid:'0', message:'This is a test post message')
+
+# Comment definition
+# t.bigint "post_id", null: false
+# t.bigint "user_id", null: false
+# t.text "comment"
+#  t.datetime "date"
+
+comment = Comment.new(user_id:'2', post_id:'1', comment:'This is a test comment')
+comment = Comment.new(user_id:'4', post_id:'1', comment:'This is a test comment')
+comment = Comment.new(user_id:'5', post_id:'1', comment:'This is a test comment')
+
+# Message definition
+# t.bigint "from_user_id", null: false
+# t.bigint "to_user_id", null: false
+# t.text "message"
+# t.datetime "date"
+
+
 #
 # post = Post.new(user_id:user.id,groupid:group.id,message:'this is a test post message')
 # post.save
+
