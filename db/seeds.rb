@@ -80,8 +80,6 @@ end
 end
 
 
-post = Post.new(user_id:user.id,groupid:group.id,message:'this is a test post message')
-post.save
 # Post definition
 # t.bigint "user_id", null: false
 # t.integer "groupid"
@@ -108,4 +106,9 @@ comment = Comment.new(user_id:'5', post_id:'1', comment:'This is a test comment'
 # t.bigint "to_user_id", null: false
 # t.text "message"
 # t.datetime "date"
+
+
+#
+# post = Post.new(user_id:user.id,groupid:group.id,message:'this is a test post message')
+# post.save
 
