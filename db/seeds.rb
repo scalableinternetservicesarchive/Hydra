@@ -6,8 +6,9 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-USER_NUM = 65536
-GROUP_NUM = 1024
+USER_NUM = 1024
+GROUP_NUM = 128
+GROUP_PER_USER = 10
 
 # User definition
 #     t.string "username"
@@ -71,7 +72,7 @@ end
 #     t.index ["user_id"], name: "index_group_users_on_user_id"
 (1..USER_NUM).each do |i|
   range = (1..GROUP_NUM).to_a
-  group_list = range.sample(20)
+  group_list = range.sample(GROUP_PER_USER)
   group_list.each do |g|
     group_user = GroupUser.new(group_id:g,user_id:i,permission:true)
     group_user.save
