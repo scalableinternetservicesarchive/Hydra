@@ -79,6 +79,6 @@ end
   end
 end
 
-
-post = Post.new(user_id:user.id,groupid:group.id,message:'this is a test post message')
-post.save
+#
+# post = Post.new(user_id:user.id,groupid:group.id,message:'this is a test post message')
+# post.save
