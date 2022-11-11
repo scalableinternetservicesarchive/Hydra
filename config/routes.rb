@@ -24,7 +24,11 @@ Rails.application.routes.draw do
   get     '/addtogroup'=>'group_users#create'
   get     '/delfromgroup'=>'group_users#destroy'
   get     '/groupusers'=>'group_users#index'
+  get     '/editgroupuser'=>'group_users#edit'
+  get     '/transferownership'=>'group_users#transferownership'
+  
   get     '/deleteuser'=>'users#destroy'
+  
   resources :users
   resources :groups
   resources :posts do
