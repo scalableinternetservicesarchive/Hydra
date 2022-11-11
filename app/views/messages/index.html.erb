@@ -1,41 +1,18 @@
 <h1>Messages</h1>
 
 <% if current_user %>
-  <% selected_chat = nil %>
-
   <div class="col-sm-6">
     <h2 style="text-align:left"> Chats </h2>
     <% @users.each do |user| %>
       <% if user.id != current_user.id %>
         <div style="padding:10px"> 
           <img src="<%=user.pic_url %>" alt="User Avatar" style="width:100px;height:100px;border:2px solid white;border-radius:50px">
-          <h3 style="display:initial;padding:20px"><%= user.username %></h3>
+          <a href="/messages/<%= user.id %>" style="display:initial;font-size:22px;padding:20px"><%= user.username %></a>
         </div>
       <% end %>
     <% end %>
   </div>
 
-
-  <div class="col-sm-8">
-    <% if selected_chat %>
-      <h2 style="text-align:left"> Chats </h2>
-      <% chats = [] %>
-      <% @messages.each  do |message| %>
-        <% if (message.to_user_id.eql? selected_chat.id) and (message.from_user_id.eql? current_user.id) %>
-          <% chats.push(message)%>
-        <% elsif (message.to_user_id.eql? current_user.id) and (message.from_user_id.eql? selected_chat.id) %>
-          <% chats.push(message)%>
-        <% end %>
-      <% end %>
-      <% chats = chats.sort_by{|msg| [ msg.created_at ]} %>
-
-      <% chats.each do |item| %>
-        <ul>
-          <%= item.message %>
-        </ul>
-      <% end %>
-    <% end %>
-  </div>
 <% else %>
   <p>Please log in to view messages</p>
 <% end %>

@@ -1,0 +1,37 @@
+<h1>Messages</h1>
+
+<% if current_user %>
+  <div class="col-sm-4">
+    <h2 style="text-align:left"> Chats </h2>
+    <% @users.each do |user| %>
+      <% if user.id != current_user.id %>
+        <div style="padding:10px"> 
+          <img src="<%=user.pic_url %>" alt="User Avatar" style="width:100px;height:100px;border:2px solid white;border-radius:50px">
+          <a href="/messages/<%= user.id %>" style="display:initial;font-size:22px;padding:20px"><%= user.username %></a>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="col-sm-6">
+    <div >
+        <h2 style="text-align:center"> Messages with <%= @users.find(@selected_user).username%> </h2>
+        <% @conversation = @conversation.sort_by{|msg| [ msg.created_at ]} %>
+        <% @conversation.each do |item| %>
+          <ul>
+            <%= item.message %>
+          </ul>
+        <% end %>
+    </div>
+
+    <%= form_with model: @message do |f| %>
+      <%= f.text_area :message %>
+      <%= f.text_field :to_user_id, value: @selected_user, type: "hidden" %>
+      <%= f.text_field :from_user_id, value: current_user.id, type: "hidden" %>
+      <%= f.submit "Send Reply" %>
+    <% end %>
+  </div>
+
+<% else %>
+  <p>Please log in to view messages</p>
+<% end %>

@@ -12,7 +12,11 @@ Rails.application.routes.draw do
   get     '/login'   =>  'sessions#new'
   post    '/login'   =>  'sessions#create'
   get     '/logout'  =>  'sessions#destroy'
-  get "/messages", to: "messages#index"
+
+  get     "/messages", to: "messages#index"
+  get     "/messages/:userid", to: "messages#show"
+  post    "/messages/:userid", to: "messages#create"
+  
   resources :users
   resources :groups
   resources :posts
