@@ -44,10 +44,22 @@ user = User.new(username:'Ye Yuan', password:'123', password_confirmation:'123',
 user.save
 user = User.new(username:'Joyce Passananti', password:'123', password_confirmation:'123', email:'joyce@ucsb.edu', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
 user.save
+(1..65536).each do |i|
+  user = User.new(username:"Dummy User-#{i}", password:'123', password_confirmation:'123', email:"user#{i}@test.org", about:'I am XXXXX, this is my profile.', pic_url:"https://picsum.photos/200?random=#{i}", status:'offline')
+  user.save
+end
 
-group = Group.new(groupname:'test group 1', pic_url:'https://i.picsum.photos/id/682/200/200.jpg?hmac=098XkPnTe9a41I6BtB9xV4t6L8c3ESkdowMLElFBR5A')
-group.save
+# Group definitions
+#     t.string "groupname"
+#     t.string "pic_url"
+#     t.datetime "created_at", null: false
+#     t.datetime "updated_at", null: false
+(1..1024).each do |i|
+  group = Group.new(groupname: "Group-#{i}", pic_url: "https://picsum.photos/200?random=#{i}")
+  group.save
+end
 
+#
 group_user = GroupUser.new(group_id:group.id,user_id:user.id,permission:true)
 group_user.save
 
