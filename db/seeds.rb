@@ -6,9 +6,13 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-USER_NUM = 1024
-GROUP_NUM = 128
-GROUP_PER_USER = 10
+# USER_NUM = 1024
+# GROUP_NUM = 128
+# GROUP_PER_USER = 10
+
+USER_NUM = 128
+GROUP_NUM = 8
+GROUP_PER_USER = 3
 
 # User definition
 #     t.string "username"
