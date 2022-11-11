@@ -4,4 +4,4 @@ Our twitter has <%= Post.count %> posts!<br>
 <%= link_to "New Post", new_post_path %>
 
 <h2>Latest Posts</h2>
-<%= render Post.all %>
+<%= render @posts %>
