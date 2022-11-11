@@ -13,6 +13,8 @@
 USER_NUM = 128
 GROUP_NUM = 8
 GROUP_PER_USER = 3
+COMMENT_NUM = 100
+MESSAGE_NUM = 30
 
 # User definition
 #     t.string "username"
@@ -89,30 +91,34 @@ end
 # t.integer "groupid"
 # t.text "message"
 # t.datetime "date"
-
-
-post = Post.new(user_id:'1', groupid:'0', message:'This is a test post message')
-post = Post.new(user_id:'2', groupid:'0', message:'This is a test post message')
-post = Post.new(user_id:'3', groupid:'0', message:'This is a test post message')
+(1..USER_NUM).each do |u|
+  post = Post.new(user_id:u, groupid:0, message:"This is a test post message from user #{u} and visible to all")
+  post.save
+  group_list = GroupUser.where(user_id: u)
+  group_list.each do |g|
+    post = Post.new(user_id:u, groupid:g.id, message:"This is a test post message from user #{u} and visible to Group #{g.id}")
+    post.save
+  end
+end
 
 # Comment definition
 # t.bigint "post_id", null: false
 # t.bigint "user_id", null: false
 # t.text "comment"
 #  t.datetime "date"
-
-comment = Comment.new(user_id:'2', post_id:'1', comment:'This is a test comment')
-comment = Comment.new(user_id:'4', post_id:'1', comment:'This is a test comment')
-comment = Comment.new(user_id:'5', post_id:'1', comment:'This is a test comment')
+(1..COMMENT_NUM).each do |i|
+  comment = Comment.new(user_id:rand(1..USER_NUM), post_id:rand(1..Post.count), comment:'This is a test comment')
+  comment.save
+end
 
 # Message definition
 # t.bigint "from_user_id", null: false
 # t.bigint "to_user_id", null: false
 # t.text "message"
 # t.datetime "date"
-
-
-#
-# post = Post.new(user_id:user.id,groupid:group.id,message:'this is a test post message')
-# post.save
-
+(1..MESSAGE_NUM).each do |i|
+  range = (1..USER_NUM).to_a
+  users = range.sample(2)
+  message = Message.new(from_user_id:users[0], to_user_id:users[1], message:"Hello User #{users[1]}, from User #{users[0]}.")
+  message.save
+end
