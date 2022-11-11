@@ -13,22 +13,34 @@
     <% end %>
   </div>
 
-  <div class="col-sm-6">
-    <div >
-        <h2 style="text-align:center"> Messages with <%= @users.find(@selected_user).username%> </h2>
+  <div class="col-sm-6" style="width: 50%;  background: aliceblue;  border-radius: 20px;  padding: 20px; font-size: large;">
+    <div>
+        <h2 style="text-align:center; color: steelblue"> <%= @users.find(@selected_user).username%> </h2>
         <% @conversation = @conversation.sort_by{|msg| [ msg.created_at ]} %>
         <% @conversation.each do |item| %>
-          <ul>
-            <%= item.message %>
+          <% if current_user.id == item.from_user_id %>
+            <ul style="color: cadetblue;
+              display: flex;
+              flex-direction: row;
+              justify-content: flex-end;">
+              <p style="background: white; padding: 2px 10px; border-radius: 10px;"><%= item.message %></p>
+            </ul>
+          <% else %>
+          <ul style="color: white;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;">
+            <p style="background: cadetblue; padding: 2px 10px; border-radius: 10px;"><%= item.message %></p>
           </ul>
+          <% end %>
         <% end %>
     </div>
 
     <%= form_with model: @message do |f| %>
-      <%= f.text_area :message %>
+      <%= f.text_field :message %>
       <%= f.text_field :to_user_id, value: @selected_user, type: "hidden" %>
       <%= f.text_field :from_user_id, value: current_user.id, type: "hidden" %>
-      <%= f.submit "Send Reply" %>
+      <%= f.submit "Send" %>
     <% end %>
   </div>
 
