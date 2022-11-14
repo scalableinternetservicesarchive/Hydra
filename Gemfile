@@ -68,4 +68,3 @@ gem 'bcrypt', '~> 3.1.11'
 end
 
 
-gem "shakapacker", "= 6.5"
