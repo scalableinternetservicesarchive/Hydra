@@ -31,7 +31,7 @@
 
 <h3>Recommended Users</h3>
 <ul>
-  <% @users.each do |user| %>
+  <% @users.limit(5).each do |user| %>
     <li>
       <img src="<%= user.pic_url %>" alt="User Avatar">
         <%#= render Post.where(name: user.username) %>
@@ -48,7 +48,7 @@
 
 <h3>Recommended Groups</h3>
 <ul>
-  <% @groups.each do |group| %>
+  <% @groups.limit(3).each do |group| %>
     <li>
       <img src="<%= group.pic_url %>" alt="Group Avatar">
         <%#= render Post.where(name: group.groupname) %>
