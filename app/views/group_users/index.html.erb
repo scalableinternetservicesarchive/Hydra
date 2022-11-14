@@ -1,0 +1,21 @@
+<h1>Manage members of group <%= @group.groupname %></h1>
+
+<h2>User Lists</h2>
+<ul>
+  <% @users.each do |user| %>
+    <li>
+      <%= link_to user.username, user_path(user) %>
+      <% if user == current_user %>
+        Yourself
+      <% elsif group_contains_user?(@group, user) %>
+        <%#= link_to "-", "/delfromgroup?uid=#{user.id}&gid=#{@group.id}", class: "btn btn-lg btn-primary" %>
+        <%= link_to "-", delfromgroup_path(:uid => user.id, :gid => @group.id), class: "btn btn-lg btn-primary" %>
+      <% else %>
+        <%#= link_to "+", "/addtogroup?uid=#{user.id}&gid=#{@group.id}", class: "btn btn-lg btn-primary" %>
+        <%= link_to "+", addtogroup_path(:uid => user.id, :gid => @group.id), class: "btn btn-lg btn-primary" %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to "Return to Group", group_path(@group) %>

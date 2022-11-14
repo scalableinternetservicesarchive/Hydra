@@ -1,11 +1,14 @@
 class UsersController < ApplicationController
+  before_action :require_login, :except => [:new, :create, :index]
+
   def index
     @users = User.all
   end
 
   def show
     @user = User.find(params[:id])
-    # @posts = Post.where(name: @user.name)
+    @posts = Post.where(user_id: @user.id)
+    @groupusers = GroupUser.where(user_id: @user.id)
   end
 
   def new
@@ -15,6 +18,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    @user.status = 'offline'
     # @user.posts = Post.new(message: "I am #{@user.username}, This is my first post!", groupid: 0)
 
     if @user.save
@@ -45,14 +49,24 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user = User.find(params[:id])
-    @user.destroy
-
-    redirect_to users_path, status: :see_other
+    uid = params[:uid]
+    logger.info "++DEBUG++ profile deletion requested by uid #{uid}"
+    User.where(id: uid).destroy_all
+    log_out
+    flash[:alert]= "Profile deleted"
+    redirect_to root_url
   end
 
   private
   def user_params
     params.require(:user).permit(:username, :password, :password_confirmation, :about, :email, :pic_url)
+  end
+
+  private
+  def require_login
+    unless logged_in?
+      flash[:alert]= "Please log in to view the requested page"
+      redirect_to users_path
+    end
   end
 end

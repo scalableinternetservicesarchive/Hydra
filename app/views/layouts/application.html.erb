@@ -12,25 +12,32 @@
       <div class="container">
         <nav>
           <ul class="nav navbar-nav navbar-left">
-            <li><%= link_to "Dashboard", dashboard_path %></li>
-            <li><%= link_to "User",   users_path %></li>
-            <li><%= link_to "Group",  groups_path %></li>
-            <li><%= link_to "Post",  posts_path %></li>
+          <% if logged_in? %>
+            <li><%= link_to "Dashboard", dashboard_path %></li>            
+            <li><%= link_to "Messages", messages_path %></li>
+          <% end %>
+            <li><%= link_to "Users",   users_path %></li>
+            <li><%= link_to "Posts",  posts_path %></li>
+            <li><%= link_to "Groups",  groups_path %></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><%= link_to "Home",   root_path %></li>
-            <li><%= link_to "Help",   '#' %></li>
+            <li><%= link_to "Home",   root_url %></li>
             <% if logged_in? %>
               <li><%= link_to session[:user_name], "/users/#{session[:user_id]}" %></li>
+<!--              TODO: Implement status-->
+<!--              <li><%#= link_to session[:status].capitalize, "#" %></li>-->
               <li><%= link_to "Log out", logout_path %></li>
             <% else %>
-              <li><%= link_to "Log in", login_path %></li>
+              <li><%= link_to "Sign in", login_path %></li>
             <% end %>
           </ul>
         </nav>
       </div>
     </header>
     <div class="container">
+      <% if alert %>
+        <p class="alert alert-danger"><%= alert %></p>
+      <% end %>
       <%= yield %>
     </div>
   </body>

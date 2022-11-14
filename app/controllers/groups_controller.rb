@@ -1,4 +1,7 @@
 class GroupsController < ApplicationController
+    include AccessControlConcern
+    before_action :require_login, :except => [ :index ]
+    
     def index
         @groups = Group.all
     end
@@ -6,6 +9,7 @@ class GroupsController < ApplicationController
     def show
         @group = Group.find(params[:id]) rescue not_found
         @group_user = GroupUser.where(group_id:params[:id])
+        @post = Post.new
         @posts = Post.where(groupid:params[:id])
     end
 
@@ -15,16 +19,15 @@ class GroupsController < ApplicationController
 
     def create
         begin
-            user = current_user()
+            user = current_user
         rescue
             flash.alert = "User information unknown. Did you login?"
             redirect_to new_group_path and return
         end
 
         @group = Group.new(groupname:group_params[:groupname],pic_url:group_params[:pic_url])
-
         if @group.save
-            @group_user = GroupUser.new(group_id:@group.id,user_id:user.id)
+            @group_user = GroupUser.new(group_id:@group.id,user_id:user.id,permission:true)
             if @group_user.save
                 redirect_to group_path(@group)
             else
