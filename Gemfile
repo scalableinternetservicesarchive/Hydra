@@ -60,12 +60,12 @@ group :development do
   # gem "spring"
 
 
-# appendix
-gem "nokogiri"
+  # appendix
+  gem "nokogiri"
 
-gem 'bcrypt', '~> 3.1.11'
+
 
 end
 
-
+gem 'bcrypt', '~> 3.1.11'
 gem "shakapacker", "= 6.5"
