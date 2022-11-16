@@ -27,6 +27,9 @@
     "webpack-merge": "5"
   },
   "version": "0.1.0",
+  "scripts": {
+    "start": "node app.js"
+  },
   "babel": {
     "presets": [
       "./node_modules/shakapacker/package/babel/preset.js",
