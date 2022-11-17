@@ -188,14 +188,18 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt (~> 3.1.11)
+  bindex
   bootsnap
   bootstrap-sass (~> 3.4.1)
   debug
   importmap-rails
+  io-console
+  irb
   nokogiri
   pg (~> 1.1.0)
   puma (~> 5.0)
   rails (~> 7.0.4)
+  reline
   sprockets-rails
   stimulus-rails
   turbo-rails
