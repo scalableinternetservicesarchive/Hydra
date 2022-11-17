@@ -18,7 +18,7 @@ class MessagesController < ApplicationController
   def create
     @message = Message.new message_params
     if @message.save
-      redirect_to "/messages/#{@message.to_user_id}"
+      redirect_to "/messages/#{@message.to_user_id}", status: :ok
     else
       flash.alert = "couldnt save"
       render :new, status: :unprocessable_entity
