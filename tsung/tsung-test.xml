@@ -49,12 +49,15 @@
 
   <sessions>
     <session name="example" type="ts_http" weight="1">
+      <setdynvars sourcetype="random_number" start="1" end="128">
+        <var name="random_user_int" />
+      </setdynvars>
       <request><http method="GET" url="/"></http></request>
       <request><http method="GET" url="/login"></http></request>
       <request><http method="GET" url="/posts"></http></request>
       <request><http method="GET" url="/groups"></http></request>
       <request><http method="GET" url="/users"></http></request>
-      <!-- <request><http method="POST" url="/login" contents="session[username]=amy&amp;session[password]=123&amp;commit='Log in'"></http></request> -->
+      <request><http method="POST" url="/login" contents="session[username]=DummyUser%%random_user_int%%&amp;session[password]=123&amp;commit='Log in'"></http></request>
       <!-- <request><http method="GET" url="/logout"></http></request> -->
       
     </session>
