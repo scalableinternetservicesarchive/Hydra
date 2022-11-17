@@ -15,18 +15,18 @@ class SessionsController < ApplicationController
       flash[:notice] = "Login successfully."
       logger.info "++DEBUG++ Login successfully."
       logger.info "   UID: #{session[:user_id]}, UName: #{session[:user_name]}"
-      redirect_to user
+      redirect_to user, status: :ok
     else
       # Create an error message
       # puts " ++DEBUG++ login_fail?"
       # puts "++DEBUG++ notice?"
-      redirect_to root_url, notice: 'Invalid username/password combination.'
+      redirect_to root_url, notice: 'Invalid username/password combination.', status: :unauthorized
       # flash[:notice] = "Invalid username/password combination."
     end
   end
 
   def destroy
     log_out
-    redirect_to root_url, notice: 'Logged Out'
+    redirect_to root_url, notice: 'Logged Out', status: :see_other
   end
 end
