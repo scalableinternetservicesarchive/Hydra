@@ -1,13 +1,12 @@
-<div style="background:aliceblue">
-  
+<div style="background:aliceblue; padding: 20px; font-family: system-ui;">
+
   <h1>Dashboard</h1>
 
   <% if current_user != nil %>
     <h3>New Public Post</h3>
-    <div style="background:white">
+    <div style="padding: 10px">
       <%= form_for @post do |f| %>
         <div>
-          <%= f.label :message %><br>
           <%= f.text_area :message %>
         </div>
         <div>
@@ -18,25 +17,30 @@
     </div>
   <% end %>
 
-
-
-
   <h3>Public Posts</h3>
-  <div style="background:white">
-    <% @posts.order("date desc").limit(5).each do |post| %>
-      <ul>
-        <% # user = User.where(id: post.user_id.to_i) %>
-        <% #=  link_to user.username, user %>
-        <p><%= link_to post.message, post_path(post) %></p>
-        Modified at <%= post.updated_at %>, pid: <%= post.id %>
-      </ul>
+  <div>
+    <% @limited_posts.order("date desc").each do |post| %>
+      <% user = @users.find(post.user_id) %>
+      <% if(post.updated_at.to_time().today?) %>
+        <% time = post.updated_at.to_fs(:time) %>
+      <% else %>
+        <% time = post.updated_at.to_fs(:long) %>
+      <% end %>
+      <div style="padding: 10px">
+        <img src="<%= @users.find(post.user_id).pic_url %>" alt="User Avatar" style="width:30px;height:30px;border:2px solid white;border-radius:50px">
+        <%= link_to user.username, user %>    <%= time %>
+        <p style="font-size:large"><%= link_to post.message, post_path(post) %></p>
+      </div>
+    <% end %>
+    <% if(@limited_posts.size < Post.all.size) %>
+      <%= link_to "show more...", { action: "show_more_posts" }%>
     <% end %>
   </div>
-
+  
 
   <h3>Recommended Users</h3>
-  <div style="display:flex;flex-direction:row;flex-wrap:nowrap;overflow: scroll;background:white">
-    <% @users.limit(10).each do |user| %>
+  <div style="display:flex;flex-direction:row;flex-wrap:nowrap;overflow: scroll;">
+    <% @rec_users.each do |user| %>
       <div style="padding: 10px;margin: 5px;">
         <img src="<%= user.pic_url %>" alt="User Avatar">
           <%#= render Post.where(name: user.username) %>
@@ -44,16 +48,20 @@
           <br><br>
         <% if user.posts.first %>
           <p><%= user.posts.first.message %></p>
-          Modified at <%= user.posts.first.updated_at %>, pid: <%= user.posts.first.id %>
+          Last active on  <%= user.posts.first.updated_at.to_fs(:long)%>
         <br><br> 
       <% end %>
       </div>
     <% end %>
+    <% if(@rec_users.size < @users.size) %>
+      <p style="font-size: 150px; margin-left: 20px; margin-right: 20px; text-decoration: none;">
+        <%= link_to "+", { action: "show_more_rec_users" }%></p>
+    <% end %>
   </div>
 
   <h3>Recommended Groups</h3>
-  <div style="display:flex;flex-direction:row;flex-wrap:nowrap;overflow: scroll;background:white">
-    <% @groups.limit(3).each do |group| %>
+  <div style="display:flex;flex-direction:row;flex-wrap:nowrap;overflow: scroll;">
+    <% @rec_groups.each do |group| %>
       <div style="padding: 10px;margin: 5px;">
         <img src="<%= group.pic_url %>" alt="Group Avatar">
         <br><br>
@@ -61,6 +69,10 @@
         <%= link_to group.groupname, group %>
         <p><%#= group.posts.first.message %></p>
       </div>
+    <% end %>
+    <% if(@rec_groups.size < @groups.size) %>
+      <p style="font-size: 150px; margin-left: 20px; margin-right: 20px; text-decoration: none;">
+        <%= link_to "+", { action: "show_more_rec_groups" }%></p>
     <% end %>
   </div>
 
