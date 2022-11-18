@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :require_login, :except => [:new, :create, :index]
-  skip_before_action :verify_authenticity_token
+  # skip_before_action :verify_authenticity_token
+  protect_from_forgery with: :exception
 
   def index
     @users = User.all
