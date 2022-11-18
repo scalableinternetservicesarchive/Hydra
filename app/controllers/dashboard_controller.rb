@@ -7,6 +7,7 @@ class DashboardController < ApplicationController
   def index
     @users = User.all
     @groups = Group.all
+    @posts = Post.where(groupid: 0)
     @limited_posts = Post.where(groupid: 0).limit(@@post_limit)
     @rec_users = @users.limit(@@rec_user_limit)
     @rec_groups = @groups.limit(@@rec_group_limit)
