@@ -28,6 +28,11 @@ Rails.application.routes.draw do
   get     '/transferownership'=>'group_users#transferownership'
   
   get     '/deleteuser'=>'users#destroy'
+
+  get     '/dashboard/show_more_posts'=>'dashboard#show_more_posts'
+  get     '/dashboard/show_more_rec_users'=>'dashboard#show_more_rec_users'
+  get     '/dashboard/show_more_rec_groups'=>'dashboard#show_more_rec_groups'
+
   
   resources :users
   resources :groups

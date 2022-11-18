@@ -5,7 +5,7 @@ class PostsController < ApplicationController
 
   def index
     # display posts which are public (has group_id:nil), or are part of a group the user belongs to
-    group_user = GroupUser.where(user_id:current_user.id)
+    group_user = logged_in? ? GroupUser.where(user_id:current_user.id) : []
     arr = [nil]
     for g_u in group_user do
       arr.push(g_u.group_id)
@@ -47,7 +47,7 @@ class PostsController < ApplicationController
 
     if @post.save
       puts " ++DEBUG++ post_save?"
-      redirect_to post_path(@post)
+      redirect_to post_path(@post), status: :ok
     else
       puts " ++DEBUG++ new post fail"
       render :new, status: :unprocessable_entity
@@ -62,7 +62,7 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
 
     if @post.update(post_params)
-      redirect_to @post
+      redirect_to @post, status: :ok
     else
       render :edit, status: :unprocessable_entity
     end
