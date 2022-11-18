@@ -22,14 +22,14 @@ class GroupsController < ApplicationController
             user = current_user
         rescue
             flash.alert = "User information unknown. Did you login?"
-            redirect_to new_group_path and return
+            redirect_to new_group_path, status: :ok and return
         end
 
         @group = Group.new(groupname:group_params[:groupname],pic_url:group_params[:pic_url])
         if @group.save
             @group_user = GroupUser.new(group_id:@group.id,user_id:user.id,permission:true)
             if @group_user.save
-                redirect_to group_path(@group)
+                redirect_to group_path(@group), status: :ok
             else
                 render :new, status: :unprocessable_entity
             end
@@ -46,7 +46,7 @@ class GroupsController < ApplicationController
         @group = Group.find(params[:id]) rescue not_found
 
         if @group.update(groupname:group_params[:groupname],pic_url:group_params[:pic_url])
-            redirect_to @group
+            redirect_to @group, status: :ok
         else
             render :edit, status: :unprocessable_entity
         end

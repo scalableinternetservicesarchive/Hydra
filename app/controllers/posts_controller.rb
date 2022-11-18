@@ -47,7 +47,7 @@ class PostsController < ApplicationController
 
     if @post.save
       puts " ++DEBUG++ post_save?"
-      redirect_to post_path(@post)
+      redirect_to post_path(@post), status: :ok
     else
       puts " ++DEBUG++ new post fail"
       render :new, status: :unprocessable_entity
@@ -62,7 +62,7 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
 
     if @post.update(post_params)
-      redirect_to @post
+      redirect_to @post, status: :ok
     else
       render :edit, status: :unprocessable_entity
     end
