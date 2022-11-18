@@ -1,5 +1,6 @@
 class GroupUsersController < ApplicationController
   include GroupUsersHelper
+  skip_before_action :verify_authenticity_token
 
   def join
     group_user = GroupUser.new

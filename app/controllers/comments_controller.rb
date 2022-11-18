@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  
+  skip_before_action :verify_authenticity_token
   require 'date'
 
   def create

@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
   include AccessControlConcern
   before_action :require_login, :except => [ :index ]
+  skip_before_action :verify_authenticity_token
   require 'date'
 
   def index
