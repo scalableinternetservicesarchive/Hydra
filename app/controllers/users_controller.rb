@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_action :require_login, :except => [:new, :create, :index]
 
   def index
-    @users = User.all
+    @users = User.order(:username).page params[:page]
   end
 
   def show

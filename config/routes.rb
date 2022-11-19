@@ -34,9 +34,14 @@ Rails.application.routes.draw do
   get     '/dashboard/show_more_rec_groups'=>'dashboard#show_more_rec_groups'
 
   
-  resources :users
-  resources :groups
+  resources :users do
+    get '/page/:page', action: :index, on: :collection
+  end
+  resources :groups do
+    get '/page/:page', action: :index, on: :collection
+  end
   resources :posts do
+    get '/page/:page', action: :index, on: :collection
     resources :comments
   end
 
