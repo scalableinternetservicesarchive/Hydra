@@ -10,7 +10,8 @@ class ApplicationController < ActionController::Base
   end
 
   def change_status(new_status)
-    current_user.update(status: new_status)
+    current_user.update_attribute(:status, new_status)
+    # current_user.update(status: new_status)
   end
   
   def not_found
