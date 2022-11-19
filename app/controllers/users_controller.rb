@@ -27,7 +27,7 @@ class UsersController < ApplicationController
 
       logger.info "++DEBUG++ Logged in? #{logged_in?}"
       flash[:notice] = "Account created successfully!"
-      redirect_to current_user, status: :ok
+      redirect_to current_user
     else
       flash[:notice] = "Oops, couldn't create account. Please make sure you are using a valid name and password and try again."
       render :new, status: :unprocessable_entity
@@ -42,7 +42,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
 
     if @user.update(user_params)
-      redirect_to @user, status: :ok
+      redirect_to @user
     else
       render :edit, status: :unprocessable_entity
     end
@@ -66,7 +66,7 @@ class UsersController < ApplicationController
   def require_login
     unless logged_in?
       flash[:alert]= "Please log in to view the requested page"
-      redirect_to users_path, status: :forbidden
+      redirect_to users_path
     end
   end
 end
