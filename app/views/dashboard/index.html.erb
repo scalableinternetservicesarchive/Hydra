@@ -19,7 +19,8 @@
 
   <h3>Public Posts</h3>
   <div>
-    <% @limited_posts.order("date desc").each do |post| %>
+<!--    rollback to f4d2fd652db71befefe4db6eec60f992af5af7a6-->
+    <% @posts.order("date desc").each do |post| %>
       <% user = @users.find(post.user_id) %>
       <% if(post.updated_at.to_time().today?) %>
         <% time = post.updated_at.to_fs(:time) %>
@@ -40,7 +41,8 @@
 
   <h3>Recommended Users</h3>
   <div style="display:flex;flex-direction:row;flex-wrap:nowrap;overflow: scroll;">
-    <% @rec_users.each do |user| %>
+<!--    rollback to f4d2fd652db71befefe4db6eec60f992af5af7a6-->
+    <% @users.each do |user| %>
       <div style="padding: 10px;margin: 5px;">
         <img src="<%= user.pic_url %>" alt="User Avatar">
           <%#= render Post.where(name: user.username) %>
@@ -61,7 +63,8 @@
 
   <h3>Recommended Groups</h3>
   <div style="display:flex;flex-direction:row;flex-wrap:nowrap;overflow: scroll;">
-    <% @rec_groups.each do |group| %>
+<!--    rollback to f4d2fd652db71befefe4db6eec60f992af5af7a6-->
+    <% @groups.each do |group| %>
       <div style="padding: 10px;margin: 5px;">
         <img src="<%= group.pic_url %>" alt="Group Avatar">
         <br><br>
