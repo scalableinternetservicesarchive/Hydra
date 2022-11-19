@@ -1,11 +1,11 @@
 class MessagesController < ApplicationController
   def index
-    @messages = Message.all
-    @users = User.all
+    # @messages = Message.all
+    @users = User.order(:username).page params[:page]
   end
 
   def show
-    @users = User.all
+    @users = User.order(:username).page params[:page]
     @messages = Message.all
     @selected_user = params[:userid]
     @conversation = @messages.where(to_user_id: @selected_user, from_user_id: current_user.id).or(@messages.where(to_user_id: current_user.id, from_user_id: @selected_user))
