@@ -48,8 +48,8 @@ Example:
 ```
 psql -f dump_hydra.sql --host awseb-e-dxp3aesnek-stack-awsebrdsdatabase-slfaoe0pa7gq.cxsnhvva4y19.us-west-2.rds.amazonaws.com --port 5432 --username u  --dbname ebdb
 ```
-It will ask to input the password you provided during the deployment. 
+It will ask the password you provided during the deployment. 
 
-Done. Now you can able to see the data browsing your site.
+Done! Now you can see the data browsing your site.
 
 
