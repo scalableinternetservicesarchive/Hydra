@@ -54,7 +54,7 @@ MESSAGE_NUM = 30
 # user = User.new(username:'Joyce Passananti', password:'123', password_confirmation:'123', email:'joyce@ucsb.edu', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
 # user.save
 (1..USER_NUM).each do |i|
-  user = User.new(username:"Dummy User-#{i}", password:'123', password_confirmation:'123', email:"user#{i}@test.org", about:'I am XXXXX, this is my profile.', pic_url:"https://picsum.photos/200?random=#{i}", status:'offline')
+  user = User.new(username:"DummyUser#{i}", password:'123', password_confirmation:'123', email:"user#{i}@test.org", about:'I am XXXXX, this is my profile.', pic_url:"https://picsum.photos/200?random=#{i}", status:'offline')
   user.save
 end
 
@@ -64,7 +64,7 @@ end
 #     t.datetime "created_at", null: false
 #     t.datetime "updated_at", null: false
 (1..GROUP_NUM).each do |i|
-  group = Group.new(groupname: "Group-#{i}", pic_url: "https://picsum.photos/200?random=#{i}")
+  group = Group.new(groupname: "Group#{i}", pic_url: "https://picsum.photos/200?random=#{i}")
   group.save
 end
 
