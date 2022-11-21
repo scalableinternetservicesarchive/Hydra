@@ -36,7 +36,7 @@ docker exec -t hydra_db_1 pg_dump app_development -a  -U postgres  > dump_hydra.
 ```
 ### Upload data to AWS RDS
 
-You need to have ```psql``` installed in your local machine. ```psql``` is a terminal-based front-end to PostgreSQL. For installation, you ca use this [link](https://www.timescale.com/blog/how-to-install-psql-on-mac-ubuntu-debian-windows/).
+You need to have ```psql``` installed on your local machine. ```psql``` is a terminal-based front-end to PostgreSQL. For installation, you can use this [link](https://www.timescale.com/blog/how-to-install-psql-on-mac-ubuntu-debian-windows/).
 
 Then, run following command:
 ```
