@@ -40,7 +40,7 @@ You need to have ```psql``` installed in your local machine. ```psql``` is a ter
 
 Then, run following command:
 ```
-psql -f your-dump-filename.sql --host your-db-hostname-in-aws-rds --port post-used-in-your-dbhost --username your-aws-rds-dbusername  --dbname your-aws-rds-dbname
+psql -f your-dump-filename.sql --host your-db-hostname-in-aws-rds --port port-used-in-your-aws-rds --username your-aws-rds-dbusername  --dbname your-aws-rds-dbname
 ```
 AWS RDS database details can be found inside the configuration file of your Elastic Benstalk environment.
 
