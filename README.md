@@ -29,7 +29,7 @@ Since we are using docker as our local environment, first we need to get the doc
 ```
 docker exec -t your-db-container-name pg_dump your-db-name -U your-db-username > your-dump-filename.sql
 ```
--a will dump the data only, not the schema. 
+```-a``` will dump the data only, not the schema. 
 Example: 
 ```
 docker exec -t hydra_db_1 pg_dump app_development -a  -U postgres  > dump_hydra.sql
