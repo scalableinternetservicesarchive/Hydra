@@ -10,11 +10,12 @@
 # GROUP_NUM = 128
 # GROUP_PER_USER = 10
 
-USER_NUM = 128
-GROUP_NUM = 8
-GROUP_PER_USER = 3
-COMMENT_NUM = 100
-MESSAGE_NUM = 30
+USER_NUM = 4096
+GROUP_NUM = 256
+GROUP_PER_USER = 128
+POST_PER_USER = 5
+COMMENT_NUM = 16384
+MESSAGE_DUPLICATE = 20
 
 # User definition
 #     t.string "username"
@@ -25,34 +26,6 @@ MESSAGE_NUM = 30
 #     t.datetime "created_at", null: false
 #     t.datetime "updated_at", null: false
 #     t.string "status"
-# user = User.new(username:'Amy', password:'123', password_confirmation:'123', email:'amy@example.com', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
-# user.save
-# user = User.new(username:'Andy', password:'123', password_confirmation:'123', email:'andy@example.com', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
-# user.save
-# user = User.new(username:'Bob', password:'123', password_confirmation:'123', email:'bob@example.com', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
-# user.save
-# user = User.new(username:'Dany', password:'123', password_confirmation:'123', email:'dany@example.com', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
-# user.save
-# user = User.new(username:'Lucy', password:'123', password_confirmation:'123', email:'lucy@example.com', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
-# user.save
-# user = User.new(username:'Sara', password:'123', password_confirmation:'123', email:'sara@example.com', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
-# user.save
-# user = User.new(username:'Iris', password:'123', password_confirmation:'123', email:'iris@example.com', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
-# user.save
-# user = User.new(username:'Ethan', password:'123', password_confirmation:'123', email:'ethan@example.com', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
-# user.save
-# user = User.new(username:'Mingrui Xu', password:'123', password_confirmation:'123', email:'mingrui@ucsb.edu', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
-# user.save
-# user = User.new(username:'Md Shafiuzzaman', password:'123', password_confirmation:'123', email:'shafi@ucsb.edu', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
-# user.save
-# user = User.new(username:'Luqing Cheng', password:'123', password_confirmation:'123', email:'luqing@ucsb.edu', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
-# user.save
-# user = User.new(username:'Zihao Su', password:'123', password_confirmation:'123', email:'zihao@ucsb.edu', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
-# user.save
-# user = User.new(username:'Ye Yuan', password:'123', password_confirmation:'123', email:'yeyuan@ucsb.edu', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
-# user.save
-# user = User.new(username:'Joyce Passananti', password:'123', password_confirmation:'123', email:'joyce@ucsb.edu', about:'I am XXXXX, this is my profile.', pic_url:'https://picsum.photos/200', status:'offline')
-# user.save
 (1..USER_NUM).each do |i|
   user = User.new(username:"DummyUser#{i}", password:'123', password_confirmation:'123', email:"user#{i}@test.org", about:'I am XXXXX, this is my profile.', pic_url:"https://picsum.photos/200?random=#{i}", status:'offline')
   user.save
@@ -92,8 +65,10 @@ end
 # t.text "message"
 # t.datetime "date"
 (1..USER_NUM).each do |u|
-  post = Post.new(user_id:u, groupid:0, message:"This is a test post message from user #{u} and visible to all")
-  post.save
+  (1..POST_PER_USER).each do |index|
+    post = Post.new(user_id:u, groupid:0, message:"[#{index}/#{POST_PER_USER}] This is a test post message from user #{u} and visible to all")
+    post.save
+  end
   group_list = GroupUser.where(user_id: u)
   group_list.each do |g|
     post = Post.new(user_id:u, groupid:g.id, message:"This is a test post message from user #{u} and visible to Group #{g.id}")
@@ -116,9 +91,18 @@ end
 # t.bigint "to_user_id", null: false
 # t.text "message"
 # t.datetime "date"
-(1..MESSAGE_NUM).each do |i|
-  range = (1..USER_NUM).to_a
-  users = range.sample(2)
-  message = Message.new(from_user_id:users[0], to_user_id:users[1], message:"Hello User #{users[1]}, from User #{users[0]}.")
-  message.save
+(1..USER_NUM).each do |from|
+  (1..USER_NUM).each do |to|
+    if from == to
+      next
+    end
+    (1..MESSAGE_DUPLICATE).each do |index|
+      message = Message.new(from_user_id:from, to_user_id:to, message:"[#{index}/#{MESSAGE_DUPLICATE}] Hello User #{to}, from User #{from}.")
+      message.save
+    end
+  end
 end
+  # range = (1..USER_NUM).to_a
+  # users = range.sample(2)
+  # message = Message.new(from_user_id:users[0], to_user_id:users[1], message:"Hello User #{users[1]}, from User #{users[0]}.")
+  # message.save
