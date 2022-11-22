@@ -52,4 +52,30 @@ It will ask the password you provided during the deployment.
 
 Done! Now you can see the data browsing your site.
 
+## Stesps to run Tsung
+Login to ec2 machine:
+```
+ssh -i Hydra.pem Hydra@ec2.cs291.com
+```
+Launch Tsung
+```
+cd /usr/bin
+launch_tsung.sh
+```
+This will output the ip address of the ec2 instance. ssh to that machine. Say the ip address is 35.86.238.45
 
+```
+ssh ec2-user@35.86.238.45
+```
+```
+tsung -f tsung_example.xml -k start
+```
+ -k flag  in the above step : keep the server running even after the test is done, so that we can analyze the various metrics from the test.
+ 
+ Copy tsung logs from ec2 to local:
+ ```
+ scp -i local-directory -r ec2-user@35.86.238.45: Log-directory ~/tsung-paginated-logs-view-users/
+ ```
+ Example:
+ ```
+ scp -i ~/Downloads/Hydra.pem -r ec2-user@35.86.238.45:/home/ec2-user/.tsung/log/20221122-0157 ~/tsung-paginated-logs-view-users/ ```
