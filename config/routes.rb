@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   get     "/messages", to: "messages#index"
   get     "/messages/:userid", to: "messages#show"
   post    "/messages/:userid", to: "messages#create"
+  get     '/messages/:userid/show_more_messages'=>'messages#show_more_messages'
   
   get     '/joingroup'=> 'group_users#join'
   get     '/leavegroup'=>'group_users#leave'
