@@ -46,7 +46,7 @@ It will ask the password you provided during the deployment.
 
 Done! Now you can see the data browsing your site.
 
-## Stesps to run Tsung
+## Steps to run Tsung
 Login to ec2 machine:
 ```
 ssh -i Hydra.pem Hydra@ec2.cs291.com
