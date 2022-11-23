@@ -92,15 +92,12 @@ end
 # t.text "message"
 # t.datetime "date"
 (1..USER_NUM).each do |from|
-  (1..USER_NUM).each do |to|
-    if from == to
-      next
-    end
-    (1..MESSAGE_DUPLICATE).each do |index|
-      message = Message.new(from_user_id:from, to_user_id:to, message:"[#{index}/#{MESSAGE_DUPLICATE}] Hello User #{to}, from User #{from}.")
-      message.save
-    end
-  end
+  to = from-1>0 ? from-1 : USER_NUM
+  message = Message.new(from_user_id:from, to_user_id:to, message:"Hello User #{to}, from User #{from}.")
+  message.save
+  to = from+1<=USER_NUM ? from+1 : 1
+  message = Message.new(from_user_id:from, to_user_id:to, message:"Hello User #{to}, from User #{from}.")
+  message.save
 end
   # range = (1..USER_NUM).to_a
   # users = range.sample(2)
