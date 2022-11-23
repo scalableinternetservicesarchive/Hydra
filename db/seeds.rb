@@ -11,8 +11,8 @@
 # GROUP_PER_USER = 10
 
 USER_NUM = 4096
-GROUP_NUM = 256
-GROUP_PER_USER = 128
+GROUP_NUM = 1024
+GROUP_PER_USER = 512
 POST_PER_USER = 5
 COMMENT_NUM = 16384
 MESSAGE_DUPLICATE = 20
@@ -26,6 +26,8 @@ MESSAGE_DUPLICATE = 20
 #     t.datetime "created_at", null: false
 #     t.datetime "updated_at", null: false
 #     t.string "status"
+# Note: User have to be generated in the traditional way
+# User.insert_all(Array.new(USER_NUM) {|i| {username:"DummyUser#{i+1}", password:'123', password_confirmation:'123', email:"user#{i+1}@test.org", about:'I am XXXXX, this is my profile.', pic_url:"https://picsum.photos/200?random=#{i+1}", status:'offline'}})
 (1..USER_NUM).each do |i|
   user = User.new(username:"DummyUser#{i}", password:'123', password_confirmation:'123', email:"user#{i}@test.org", about:'I am XXXXX, this is my profile.', pic_url:"https://picsum.photos/200?random=#{i}", status:'offline')
   user.save
@@ -36,10 +38,7 @@ end
 #     t.string "pic_url"
 #     t.datetime "created_at", null: false
 #     t.datetime "updated_at", null: false
-(1..GROUP_NUM).each do |i|
-  group = Group.new(groupname: "Group#{i}", pic_url: "https://picsum.photos/200?random=#{i}")
-  group.save
-end
+Group.insert_all(Array.new(GROUP_NUM) {|i| {groupname: "Group#{i+1}", pic_url: "https://picsum.photos/200?random=#{i+1}"}})
 
 # Group User definition
 #     t.bigint "group_id", null: false
@@ -49,59 +48,58 @@ end
 #     t.boolean "permission"
 #     t.index ["group_id"], name: "index_group_users_on_group_id"
 #     t.index ["user_id"], name: "index_group_users_on_user_id"
+group_user_arr = Array.new
 (1..USER_NUM).each do |i|
   range = (1..GROUP_NUM).to_a
   group_list = range.sample(GROUP_PER_USER)
   group_list.each do |g|
-    group_user = GroupUser.new(group_id:g,user_id:i,permission:true)
-    group_user.save
+    group_user_arr.insert(-1, {group_id:g,user_id:i,permission:true})
   end
 end
-
+GroupUser.insert_all(group_user_arr)
 
 # Post definition
 # t.bigint "user_id", null: false
 # t.integer "groupid"
 # t.text "message"
 # t.datetime "date"
+post_arr = Array.new
 (1..USER_NUM).each do |u|
   (1..POST_PER_USER).each do |index|
-    post = Post.new(user_id:u, groupid:0, message:"[#{index}/#{POST_PER_USER}] This is a test post message from user #{u} and visible to all")
-    post.save
+    post_arr.insert(-1, {user_id:u, groupid:0, message:"[#{index}/#{POST_PER_USER}] This is a test post message from user #{u} and visible to all"})
   end
   group_list = GroupUser.where(user_id: u)
   group_list.each do |g|
-    post = Post.new(user_id:u, groupid:g.id, message:"This is a test post message from user #{u} and visible to Group #{g.id}")
-    post.save
+    post_arr.insert(-1, {user_id:u, groupid:g.id, message:"This is a test post message from user #{u} and visible to Group #{g.id}"})
   end
 end
+Post.insert_all(post_arr)
 
 # Comment definition
 # t.bigint "post_id", null: false
 # t.bigint "user_id", null: false
 # t.text "comment"
 #  t.datetime "date"
+cmt_arr = Array.new
 (1..COMMENT_NUM).each do |i|
-  comment = Comment.new(user_id:rand(1..USER_NUM), post_id:rand(1..Post.count), comment:'This is a test comment')
-  comment.save
+  uid = rand(1..USER_NUM)
+  pid = rand(1..Post.count)
+  cmt_arr.insert(-1, {user_id:uid, post_id:pid, comment:"This is a test comment to post #{pid} from user #{uid}. Total Comment ID: #{i}. "})
 end
+Comment.insert_all(cmt_arr)
 
 # Message definition
 # t.bigint "from_user_id", null: false
 # t.bigint "to_user_id", null: false
 # t.text "message"
 # t.datetime "date"
+msg_arr = Array.new
 (1..USER_NUM).each do |from|
   (1..MESSAGE_DUPLICATE).each do |index|
     to = from-1>0 ? from-1 : USER_NUM
-    message = Message.new(from_user_id:from, to_user_id:to, message:"[#{index}/#{MESSAGE_DUPLICATE}] Hello User #{to}, from User #{from}.")
-    message.save
+    msg_arr.insert(-1, {from_user_id:from, to_user_id:to, message:"[#{index}/#{MESSAGE_DUPLICATE}] Hello User #{to}, from User #{from}."})
     to = from+1<=USER_NUM ? from+1 : 1
-    message = Message.new(from_user_id:from, to_user_id:to, message:"[#{index}/#{MESSAGE_DUPLICATE}] Hello User #{to}, from User #{from}.")
-    message.save
+    msg_arr.insert(-1, {from_user_id:from, to_user_id:to, message:"[#{index}/#{MESSAGE_DUPLICATE}] Hello User #{to}, from User #{from}."})
   end
 end
-  # range = (1..USER_NUM).to_a
-  # users = range.sample(2)
-  # message = Message.new(from_user_id:users[0], to_user_id:users[1], message:"Hello User #{users[1]}, from User #{users[0]}.")
-  # message.save
+Message.insert_all(msg_arr)
