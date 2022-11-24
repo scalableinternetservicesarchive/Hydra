@@ -28,6 +28,14 @@ Example:
 ```
 docker exec -t hydra_db_1 pg_dump app_development -a  -U postgres  > dump_hydra.sql
 ```
+
+### Run seed file on AWS
+- ssh into app server
+- Run `sudo su`, then `/opt/elasticbeanstalk/bin/get-config environment | jq -r 'to_entries | .[] | "export \(.key)=\"\(.value)\""' > /etc/profile.d/sh.local`
+- Run `chmod 777 /etc/profile.d/sh.local`
+- disconnect from the app server
+- ssh into app server again, then run `cd /var/app/current && bin/rails db:seed`. Ignore the errors and wait until the command is finished, and the app server should be seeded.
+
 ### Upload data to AWS RDS
 
 You need to have ```psql``` installed on your local machine. ```psql``` is a terminal-based front-end to PostgreSQL. For installation, you can use this [link](https://www.timescale.com/blog/how-to-install-psql-on-mac-ubuntu-debian-windows/).
@@ -46,7 +54,7 @@ It will ask the password you provided during the deployment.
 
 Done! Now you can see the data browsing your site.
 
-## Stesps to run Tsung
+## Steps to run Tsung
 Login to ec2 machine:
 ```
 ssh -i Hydra.pem Hydra@ec2.cs291.com
