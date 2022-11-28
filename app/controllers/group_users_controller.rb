@@ -14,14 +14,13 @@ class GroupUsersController < ApplicationController
       flash[:notice] = "Oops, couldn't join at this point. Please try again later."
     end
 
-    redirect_to "/groups/#{params[:gid]}", status: :ok
-
+    redirect_to "/groups/#{params[:gid]}"
   end
 
   def leave
     GroupUser.where(user_id: current_user.id, group_id: params[:gid]).destroy_all
 
-    redirect_to "/groups/#{params[:gid]}", status: :ok
+    redirect_to "/groups/#{params[:gid]}"
   end
 
   def edit
@@ -37,7 +36,7 @@ class GroupUsersController < ApplicationController
     @group_user2 = GroupUser.where(user_id: touid, group_id: params[:gid]) rescue not_found
 
     if @group_user1.update(user_id: fromuid, group_id: params[:gid],permission:false) and @group_user2.update(user_id: touid, group_id: params[:gid],permission:true)
-      redirect_to @group, status: :ok
+      redirect_to @group
     else
       render :edit, status: :unprocessable_entity
     end
@@ -59,7 +58,7 @@ class GroupUsersController < ApplicationController
     else
       flash[:notice] = "Oops, cannot finish the operation. Please try again later."
     end
-    redirect_to groupusers_path(:gid => gid), status: :ok
+    redirect_to groupusers_path(:gid => gid)
   end
 
   def destroy
