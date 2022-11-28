@@ -11,7 +11,7 @@
     <server host="hydraseed.eba-gi4qc9gv.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
   </servers>
   <load>
-    <arrivalphase phase="1" duration="10" unit="second">
+    <arrivalphase phase="1" duration="1" unit="second">
       <users arrivalrate="2" unit="second"></users>
     </arrivalphase>
     <arrivalphase phase="2" duration="10" unit="second">
@@ -50,7 +50,7 @@
 
   <sessions>
 
-    <session name="login-logout" weight="1" type="ts_http">
+    <session name="all-feature" weight="1" type="ts_http">
 
         <!-- LOGIN -->
         <request>
@@ -78,18 +78,63 @@
               version='1.1'
               method='POST'
               content_type="application/x-www-form-urlencoded"
-              contents='authenticity_token=%%_encoded_authenticity_token%%&amp;session%5Busername%5D=DummyUser1&amp;session%5Bpassword_digest%5D=123&amp;commit=Log+in'>
+              contents='authenticity_token=%%_encoded_authenticity_token%%&amp;session%5Busername%5D=DummyUser%%_random_num%%&amp;session%5Bpassword_digest%5D=123&amp;commit=Log+in'>
               </http>
           </request>
         </if>
 
-<!--         wait for up to 2 seconds, and then logs off -->
+        <!-- wait for up to 2 seconds, and then browse other pages -->
         <thinktime value="2" random="true"></thinktime>
+
+        <!-- edit profile -->
+        <request subst="true">
+          <dyn_variable name="edit_profile_authenticity_token" xpath="//head/meta[@name='csrf-token']/@content"></dyn_variable>
+          <http url='/users/%%_random_num%%/edit' version='1.1' method='GET'></http>
+        </request>
+
+        <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(edit_profile_authenticity_token,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
+          <var name="encoded_edit_authenticity_token" />
+        </setdynvars>
+
         
+        <request subst="true">
+              <http
+              url='/users/%%_random_num%%'
+              version='1.1'
+              method='POST'
+              content_type="application/x-www-form-urlencoded"
+              contents='_method=patch&amp;authenticity_token=%%_encoded_edit_authenticity_token%%&amp;user%5Busername%5D=DummyUser%%_random_num%%&amp;user%5Bemail%5D=user%%_random_num%%%40test.org&amp;user%5Bpassword%5D=123&amp;user%5Bpassword_confirmation%5D=123&amp;user%5Babout%5D=123123123123&amp;user%5Bpic_url%5D=123&amp;commit=Create+my+account'>
+              </http>
+        </request>
+
+        <!-- wait for up to 2 seconds -->
+        <thinktime value="2" random="true"></thinktime>
+
+        <!-- see a random user -->
+        <request>
+            <http url='/users' version='1.1' method='GET'></http>
+        </request>
+
+        <setdynvars sourcetype="random_number" start="1" end="10000">
+          <var name="random_other_user" />
+        </setdynvars>
+
+        <request subst="true">
+            <http url='/users/%%_random_other_user%%' version='1.1' method='GET'></http>
+        </request>
+
+        
+        
+
+
+        
+
 
         <!--LOGOUT-->
         <request><http method="GET" url="/logout"></http></request>
-        
+
+
+
             
     </session>
     
