@@ -50,7 +50,7 @@
 
   <sessions>
 
-    <session name="login-logout" weight="1" type="ts_http">
+    <session name="all-feature" weight="1" type="ts_http">
 
         <!-- LOGIN -->
         <request>
@@ -78,18 +78,22 @@
               version='1.1'
               method='POST'
               content_type="application/x-www-form-urlencoded"
-              contents='authenticity_token=%%_encoded_authenticity_token%%&amp;session%5Busername%5D=DummyUser1&amp;session%5Bpassword_digest%5D=123&amp;commit=Log+in'>
+              contents='authenticity_token=%%_encoded_authenticity_token%%&amp;session%5Busername%5D=DummyUser%%_random_num%%&amp;session%5Bpassword_digest%5D=123&amp;commit=Log+in'>
               </http>
           </request>
         </if>
 
-<!--         wait for up to 2 seconds, and then logs off -->
+        <!-- wait for up to 2 seconds, and then browse other pages -->
         <thinktime value="2" random="true"></thinktime>
+
         
+
 
         <!--LOGOUT-->
         <request><http method="GET" url="/logout"></http></request>
-        
+
+
+
             
     </session>
     

@@ -11,7 +11,7 @@
     <server host="hydraseed.eba-gi4qc9gv.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
   </servers>
   <load>
-    <arrivalphase phase="1" duration="1" unit="second">
+    <arrivalphase phase="1" duration="10" unit="second">
       <users arrivalrate="2" unit="second"></users>
     </arrivalphase>
     <arrivalphase phase="2" duration="10" unit="second">
