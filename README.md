@@ -55,6 +55,7 @@ It will ask the password you provided during the deployment.
 Done! Now you can see the data browsing your site.
 
 ## Steps to run Tsung
+### Create new AWS instance for Tsung
 Login to ec2 machine:
 ```
 ssh -i Hydra.pem Hydra@ec2.cs291.com
@@ -69,12 +70,20 @@ This will output the ip address of the ec2 instance. ssh to that machine. Say th
 ```
 ssh ec2-user@35.86.238.45
 ```
+### Log into existing Tsung instance
+If we have Tsung instances available, we don't need to create new ones. Go to the [AWS management website](https://us-west-2.console.aws.amazon.com/ec2/home?region=us-west-2#Home:) and go to EC2 page. Then click into the instance (named Tsung-Hydra) and click "Connect". You will find "SSH client" tab, which will have something like:
+```
+ssh -i "Hydra.pem" root@ec2-44-234-188-29.us-west-2.compute.amazonaws.com
+```
+Replace the `root` by `ec2-user`, and you can log into the instance directly.
+
+### Run Tsung test
 ```
 tsung -f tsung_example.xml -k start
 ```
  -k flag  in the above step : keep the server running even after the test is done, so that we can analyze the various metrics from the test.
  
- Copy tsung logs from ec2 to local:
+ ### Copy tsung logs from ec2 to local:
  ```
  scp -i local-directory -r ec2-user@35.86.238.45: Log-directory ~/tsung-paginated-logs-view-users/
  ```

@@ -86,8 +86,78 @@
         <!-- wait for up to 2 seconds, and then browse other pages -->
         <thinktime value="2" random="true"></thinktime>
 
-        
+        <!-- see all groups and click into a group -->
+        <request>
+            <http url='/groups' version='1.1' method='GET'></http>
+        </request>
 
+        <setdynvars sourcetype="random_number" start="1" end="1000">
+          <var name="random_group" />
+        </setdynvars>
+        
+        <request subst="true">
+            <http url='/groups/%%_random_group%%' version='1.1' method='GET'></http>
+        </request>
+
+        <!-- Create a new group -->
+        
+        <thinktime value="2" random="true"></thinktime>
+
+        <request subst="true">
+          <dyn_variable name="create_group_authenticity_token" xpath="//head/meta[@name='csrf-token']/@content"></dyn_variable>
+          <http url='/groups/new' version='1.1' method='GET'></http>
+        </request>
+
+        <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(create_group_authenticity_token,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
+          <var name="encoded_create_group_authenticity_token" />
+        </setdynvars>
+
+        <request subst="true">
+              <!-- grab the group id of the new group -->
+              <dyn_variable name="new_group_id" re="Location: http://.*/groups/([0-9]+)\r"/>
+              <http
+              url='/groups'
+              version='1.1'
+              method='POST'
+              content_type="application/x-www-form-urlencoded"
+              contents='authenticity_token=%%_encoded_create_group_authenticity_token%%&amp;group%5Bgroupname%5D=tsungnewgroup&amp;group%5Bpic_url%5D=123&amp;commit=Create+Group'>
+              </http>
+        </request>
+
+        <!-- Add a random user to the group -->
+        <setdynvars sourcetype="random_number" start="1" end="10000">
+          <var name="random_other_user" />
+        </setdynvars>
+        
+        <request subst="true">
+            <http url='/groupusers?gid=%%_new_group_id%%' version='1.1' method='GET'></http>
+        </request>
+
+        <request subst="true">
+            <http url='/addtogroup?gid=%%_new_group_id%%&amp;uid=%%_random_other_user%%' version='1.1' method='GET'></http>
+        </request>
+
+        <!-- Edit the newly created group -->
+        <request subst="true">
+          <dyn_variable name="edit_group_authenticity_token" xpath="//head/meta[@name='csrf-token']/@content"></dyn_variable>
+          <http url='/groups/%%_new_group_id%%/edit' version='1.1' method='GET'></http>
+        </request>
+
+        <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(edit_group_authenticity_token,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
+          <var name="encoded_edit_group_authenticity_token" />
+        </setdynvars>
+
+        <request subst="true">
+              <http
+              url='/groups/%%_new_group_id%%'
+              version='1.1'
+              method='POST'
+              content_type="application/x-www-form-urlencoded"
+              contents='_method=patch&amp;authenticity_token=%%_edit_group_authenticity_token%%&amp;group%5Bgroupname%5D=tsungnewgroupUpdate&amp;group%5Bpic_url%5D=123&amp;commit=Update+Group'>
+              </http>
+        </request>
+
+       
 
         <!--LOGOUT-->
         <request><http method="GET" url="/logout"></http></request>

@@ -86,6 +86,47 @@
         <!-- wait for up to 2 seconds, and then browse other pages -->
         <thinktime value="2" random="true"></thinktime>
 
+        <!-- edit profile -->
+        <request subst="true">
+          <dyn_variable name="edit_profile_authenticity_token" xpath="//head/meta[@name='csrf-token']/@content"></dyn_variable>
+          <http url='/users/%%_random_num%%/edit' version='1.1' method='GET'></http>
+        </request>
+
+        <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(edit_profile_authenticity_token,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
+          <var name="encoded_edit_authenticity_token" />
+        </setdynvars>
+
+        
+        <request subst="true">
+              <http
+              url='/users/%%_random_num%%'
+              version='1.1'
+              method='POST'
+              content_type="application/x-www-form-urlencoded"
+              contents='_method=patch&amp;authenticity_token=%%_encoded_edit_authenticity_token%%&amp;user%5Busername%5D=DummyUser%%_random_num%%&amp;user%5Bemail%5D=user%%_random_num%%%40test.org&amp;user%5Bpassword%5D=123&amp;user%5Bpassword_confirmation%5D=123&amp;user%5Babout%5D=123123123123&amp;user%5Bpic_url%5D=123&amp;commit=Create+my+account'>
+              </http>
+        </request>
+
+        <!-- wait for up to 2 seconds -->
+        <thinktime value="2" random="true"></thinktime>
+
+        <!-- see a random user -->
+        <request>
+            <http url='/users' version='1.1' method='GET'></http>
+        </request>
+
+        <setdynvars sourcetype="random_number" start="1" end="10000">
+          <var name="random_other_user" />
+        </setdynvars>
+
+        <request subst="true">
+            <http url='/users/%%_random_other_user%%' version='1.1' method='GET'></http>
+        </request>
+
+        
+        
+
+
         
 
 
