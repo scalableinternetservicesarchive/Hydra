@@ -8,3 +8,22 @@
   <%= post.message %> <br>
   posted by: <%= post.user_id %>
 </p>
+
+
+<ul>
+  <% post.comments.each do |comment| %>
+    <li>
+      <p>
+        <strong>Commenter:</strong>
+        <%= comment.user_id %>
+      </p>
+
+      <p>
+        <strong>Comment:</strong>
+        <%= comment.comment %> <font size=1>(<%= comment.updated_at %>)</font>
+      </p>
+    </li>
+  <% end %>
+</ul>
+
+<br/>
