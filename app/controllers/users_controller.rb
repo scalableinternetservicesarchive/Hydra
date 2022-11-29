@@ -54,7 +54,7 @@ class UsersController < ApplicationController
     User.where(id: uid).destroy_all
     log_out
     flash[:alert]= "Profile deleted"
-    redirect_to root_url
+    redirect_to root_url, status: :see_other
   end
 
   private

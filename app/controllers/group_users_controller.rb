@@ -15,7 +15,6 @@ class GroupUsersController < ApplicationController
     end
 
     redirect_to "/groups/#{params[:gid]}"
-
   end
 
   def leave
@@ -68,7 +67,7 @@ class GroupUsersController < ApplicationController
 
     GroupUser.where(user_id: uid, group_id: gid).destroy_all
 
-    redirect_to groupusers_path(:gid => gid)
+    redirect_to groupusers_path(:gid => gid), status: :see_other
   end
 
 end
