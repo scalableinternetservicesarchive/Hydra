@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<!DOCTYPE tsung SYSTEM "/usr/local/share/tsung/tsung-1.0.dtd" [] >
+<!-- Next line only for local testing with mac -->
+<!-- <!DOCTYPE tsung SYSTEM "/usr/local/Cellar/tsung/1.7.0/share/tsung/tsung-1.0.dtd"> -->
+<tsung loglevel="notice">
+  <clients>
+    <client host="localhost" maxusers="20000" use_controller_vm="true" />
+  </clients>
+
+  <servers>
+    <server host="hydraseed.eba-gi4qc9gv.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+  </servers>
+  <load>
+    <arrivalphase phase="1" duration="10" unit="second">
+      <users arrivalrate="2" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="2" duration="10" unit="second">
+      <users arrivalrate="4" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="3" duration="10" unit="second">
+      <users arrivalrate="8" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="4" duration="10" unit="second">
+      <users arrivalrate="16" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="5" duration="10" unit="second">
+      <users arrivalrate="32" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="6" duration="10" unit="second">
+      <users arrivalrate="64" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="7" duration="10" unit="second">
+      <users arrivalrate="128" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="8" duration="10" unit="second">
+      <users arrivalrate="256" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="9" duration="10" unit="second">
+      <users arrivalrate="512" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="10" duration="10" unit="second">
+      <users arrivalrate="1024" unit="second"></users>
+    </arrivalphase>
+  </load>
+
+  <options>
+    <!-- Set connection timeout to 2 seconds -->
+    <option name="global_ack_timeout" value="2000"></option>
+  </options>
+
+  <sessions>
+
+    <session name="all-feature" weight="1" type="ts_http">
+
+        <!-- LOGIN -->
+        <request>
+            <dyn_variable name="authenticity_token" ></dyn_variable>
+            <http url='/login' version='1.1' method='GET'></http>
+         </request>
+
+        <!-- wait for up to 5 seconds, user is typing names -->
+        <thinktime value="5" random="true"></thinktime>
+
+        <!-- create a random number to make a unique first name -->
+        <setdynvars sourcetype="random_number" start="1" end="10000">
+          <var name="random_num" />
+        </setdynvars>
+
+        <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(authenticity_token,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
+          <var name="encoded_authenticity_token" />
+        </setdynvars>
+
+        <!-- user log in -->
+        <if var="encoded_authenticity_token" neq="">
+          <request subst="true">
+              <http
+              url='/login'
+              version='1.1'
+              method='POST'
+              content_type="application/x-www-form-urlencoded"
+              contents='authenticity_token=%%_encoded_authenticity_token%%&amp;session%5Busername%5D=DummyUser%%_random_num%%&amp;session%5Bpassword_digest%5D=123&amp;commit=Log+in'>
+              </http>
+          </request>
+        </if>
+
+        <!-- wait for up to 2 seconds, and then browse other pages -->
+        <thinktime value="2" random="true"></thinktime>
+
+        <!-- edit profile -->
+        <request subst="true">
+          <dyn_variable name="edit_profile_authenticity_token" xpath="//head/meta[@name='csrf-token']/@content"></dyn_variable>
+          <http url='/users/%%_random_num%%/edit' version='1.1' method='GET'></http>
+        </request>
+
+        <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(edit_profile_authenticity_token,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
+          <var name="encoded_edit_authenticity_token" />
+        </setdynvars>
+
+        
+        <request subst="true">
+              <http
+              url='/users/%%_random_num%%'
+              version='1.1'
+              method='POST'
+              content_type="application/x-www-form-urlencoded"
+              contents='_method=patch&amp;authenticity_token=%%_encoded_edit_authenticity_token%%&amp;user%5Busername%5D=DummyUser%%_random_num%%&amp;user%5Bemail%5D=user%%_random_num%%%40test.org&amp;user%5Bpassword%5D=123&amp;user%5Bpassword_confirmation%5D=123&amp;user%5Babout%5D=123123123123&amp;user%5Bpic_url%5D=123&amp;commit=Create+my+account'>
+              </http>
+        </request>
+
+        <!-- wait for up to 2 seconds -->
+        <thinktime value="2" random="true"></thinktime>
+
+        <!-- see a random user -->
+        <request>
+            <http url='/users' version='1.1' method='GET'></http>
+        </request>
+
+        <setdynvars sourcetype="random_number" start="1" end="10000">
+          <var name="random_other_user" />
+        </setdynvars>
+
+        <request subst="true">
+            <http url='/users/%%_random_other_user%%' version='1.1' method='GET'></http>
+        </request>
+
+        
+        
+
+
+        
+
+
+        <!--LOGOUT-->
+        <request><http method="GET" url="/logout"></http></request>
+
+
+
+            
+    </session>
+    
+  </sessions>
+</tsung>
