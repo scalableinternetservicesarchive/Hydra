@@ -1,0 +1,385 @@
+<?xml version="1.0"?>
+<!DOCTYPE tsung SYSTEM "/usr/local/share/tsung/tsung-1.0.dtd" [] >
+<!-- Next line only for local testing with mac -->
+<!-- <!DOCTYPE tsung SYSTEM "/usr/local/Cellar/tsung/1.7.0/share/tsung/tsung-1.0.dtd"> -->
+<tsung loglevel="notice">
+  <clients>
+    <client host="localhost" maxusers="20000" use_controller_vm="true" />
+  </clients>
+
+  <servers>
+    <server host="hydraseed.eba-gi4qc9gv.us-west-2.elasticbeanstalk.com" port="80" type="tcp"></server>
+  </servers>
+  <load>
+    <arrivalphase phase="1" duration="10" unit="second">
+      <users arrivalrate="2" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="2" duration="10" unit="second">
+      <users arrivalrate="4" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="3" duration="10" unit="second">
+      <users arrivalrate="8" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="4" duration="10" unit="second">
+      <users arrivalrate="16" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="5" duration="10" unit="second">
+      <users arrivalrate="32" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="6" duration="10" unit="second">
+      <users arrivalrate="64" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="7" duration="10" unit="second">
+      <users arrivalrate="128" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="8" duration="10" unit="second">
+      <users arrivalrate="256" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="9" duration="10" unit="second">
+      <users arrivalrate="512" unit="second"></users>
+    </arrivalphase>
+    <arrivalphase phase="10" duration="10" unit="second">
+      <users arrivalrate="1024" unit="second"></users>
+    </arrivalphase>
+  </load>
+
+  <options>
+    <!-- Set connection timeout to 2 seconds -->
+    <option name="global_ack_timeout" value="2000"></option>
+  </options>
+
+  <sessions>
+
+    <session name="post_profile_comment" weight="1" type="ts_http">
+
+        <!-- LOGIN -->
+        <request>
+            <dyn_variable name="authenticity_token" ></dyn_variable>
+            <http url='/login' version='1.1' method='GET'></http>
+         </request>
+
+        <!-- wait for up to 5 seconds, user is typing names -->
+        <thinktime value="5" random="true"></thinktime>
+
+        <!-- create a random number to make a unique first name -->
+        <setdynvars sourcetype="random_number" start="1" end="10000">
+          <var name="random_num" />
+        </setdynvars>
+
+        <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(authenticity_token,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
+          <var name="encoded_authenticity_token" />
+        </setdynvars>
+
+        <!-- user log in -->
+        <if var="encoded_authenticity_token" neq="">
+          <request subst="true">
+              <http
+              url='/login'
+              version='1.1'
+              method='POST'
+              content_type="application/x-www-form-urlencoded"
+              contents='authenticity_token=%%_encoded_authenticity_token%%&amp;session%5Busername%5D=DummyUser%%_random_num%%&amp;session%5Bpassword_digest%5D=123&amp;commit=Log+in'>
+              </http>
+          </request>
+        </if>
+
+        <!-- wait for up to 2 seconds, and then browse other pages -->
+        <thinktime value="2" random="true"></thinktime>
+
+        <!-- edit profile -->
+        <request subst="true">
+          <dyn_variable name="edit_profile_authenticity_token" xpath="//head/meta[@name='csrf-token']/@content"></dyn_variable>
+          <http url='/users/%%_random_num%%/edit' version='1.1' method='GET'></http>
+        </request>
+
+        <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(edit_profile_authenticity_token,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
+          <var name="encoded_edit_authenticity_token" />
+        </setdynvars>
+
+        <if var="encoded_edit_authenticity_token" neq="">
+          <request subst="true">
+                <http
+                url='/users/%%_random_num%%'
+                version='1.1'
+                method='POST'
+                content_type="application/x-www-form-urlencoded"
+                contents='_method=patch&amp;authenticity_token=%%_encoded_edit_authenticity_token%%&amp;user%5Busername%5D=DummyUser%%_random_num%%&amp;user%5Bemail%5D=user%%_random_num%%%40test.org&amp;user%5Bpassword%5D=123&amp;user%5Bpassword_confirmation%5D=123&amp;user%5Babout%5D=123123123123&amp;user%5Bpic_url%5D=123&amp;commit=Create+my+account'>
+                </http>
+          </request>
+        </if>
+        
+
+        <!-- see a random user -->
+        <request>
+            <http url='/users' version='1.1' method='GET'></http>
+        </request>
+
+        <setdynvars sourcetype="random_number" start="1" end="10000">
+          <var name="random_other_user" />
+        </setdynvars>
+
+        <request subst="true">
+            <http url='/users/%%_random_other_user%%' version='1.1' method='GET'></http>
+        </request>
+
+        
+        <!-- see a public post -->
+        <request>
+            <http url='/posts/1' version='1.1' method='GET'></http>
+        </request>
+
+        <!-- create a comment for the public post -->
+        <thinktime value="2" random="true"></thinktime>
+
+        <request subst="true">
+          <dyn_variable name="create_comment_public_authenticity_token" xpath="//head/meta[@name='csrf-token']/@content"></dyn_variable>
+          <http url='/posts/1' version='1.1' method='GET'></http>
+        </request>
+
+        <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(create_comment_public_authenticity_token,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
+          <var name="encoded_create_comment_public_authenticity_token" />
+        </setdynvars>
+
+        <if var="encoded_create_comment_public_authenticity_token" neq="">
+          <request subst="true">
+                <http
+                url='/posts/1/comments'
+                version='1.1'
+                method='POST'
+                content_type="application/x-www-form-urlencoded"
+                contents='authenticity_token=%%_encoded_create_comment_public_authenticity_token%%&amp;comment%5Bcomment%5D=tsungpubliccomment&amp;commit=Create+Comment'>
+                </http>
+          </request>
+        </if>
+
+        <!-- visit dashboard and create a public post -->
+        <request subst="true">
+          <dyn_variable name="create_post_authenticity_token" xpath="//head/meta[@name='csrf-token']/@content"></dyn_variable>
+          <http url='/dashboard' version='1.1' method='GET'></http>
+        </request>
+
+        <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(create_post_authenticity_token,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
+          <var name="encoded_create_post_authenticity_token" />
+        </setdynvars>
+
+        <if var="encoded_create_post_authenticity_token" neq="">
+          <request subst="true">
+                <dyn_variable name="redirect" re="Location: (http://.*)\r"/>
+                <http
+                url='/posts'
+                version='1.1'
+                method='POST'
+                content_type="application/x-www-form-urlencoded"
+                contents='authenticity_token=%%_encoded_create_post_authenticity_token%%&amp;post%5Bmessage%5D=newpublicpost1234&amp;post%5Bgroupid%5D=0&amp;commit=Create+Post%21'>
+                </http>
+          </request>
+           <!-- view created post -->
+          <thinktime value="2" random="true"></thinktime>
+          <if var="redirect" neq="">
+            <request subst="true">
+                <http url='%%_redirect%%' version='1.1' method='GET'></http>
+            </request>
+            
+            <!-- edit created post -->
+            <request subst="true">
+              <dyn_variable name="edit_post_authenticity_token" xpath="//head/meta[@name='csrf-token']/@content"></dyn_variable>
+              <http url='%%_redirect%%/edit' version='1.1' method='GET'></http>
+            </request>
+
+            <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(edit_post_authenticity_token,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
+              <var name="encoded_edit_post_authenticity_token" />
+            </setdynvars>
+            <if var="encoded_edit_post_authenticity_token" neq="">
+              <request subst="true">
+                    <http
+                    url='%%_redirect%%'
+                    version='1.1'
+                    method='POST'
+                    content_type="application/x-www-form-urlencoded"
+                    contents='_method=patch&amp;authenticity_token=%%_encoded_edit_post_authenticity_token%%&amp;post%5Bmessage%5D=newpublicpost1234updated&amp;commit=Update+Post'>
+                    </http>
+              </request>
+            </if>
+            <!-- create a comment for the created post -->
+            <thinktime value="2" random="true"></thinktime>
+
+            <request subst="true">
+              <dyn_variable name="create_comment_authenticity_token" xpath="//head/meta[@name='csrf-token']/@content"></dyn_variable>
+              <http url='%%_redirect%%' version='1.1' method='GET'></http>
+            </request>
+
+            <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(create_comment_authenticity_token,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
+              <var name="encoded_create_comment_authenticity_token" />
+            </setdynvars>
+            <if var="encoded_create_comment_authenticity_token" neq="">
+              <request subst="true">
+                    <http
+                    url='%%_redirect%%/comments'
+                    version='1.1'
+                    method='POST'
+                    content_type="application/x-www-form-urlencoded"
+                    contents='authenticity_token=%%_encoded_create_comment_authenticity_token%%&amp;comment%5Bcomment%5D=tsungcomment&amp;commit=Create+Comment'>
+                    </http>
+              </request>
+            </if>
+          </if>
+        </if>
+
+
+        <!--LOGOUT-->
+        <request><http method="GET" url="/logout"></http></request>
+
+
+
+            
+    </session>
+
+    <session name="group_message" weight="1" type="ts_http">
+
+        <!-- LOGIN -->
+        <request>
+            <dyn_variable name="authenticity_token" ></dyn_variable>
+            <http url='/login' version='1.1' method='GET'></http>
+         </request>
+
+        <!-- wait for up to 5 seconds, user is typing names -->
+        <thinktime value="5" random="true"></thinktime>
+
+        <!-- create a random number to make a unique first name -->
+        <setdynvars sourcetype="random_number" start="1" end="10000">
+          <var name="random_num" />
+        </setdynvars>
+
+        <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(authenticity_token,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
+          <var name="encoded_authenticity_token" />
+        </setdynvars>
+
+        <!-- user log in -->
+        <if var="encoded_authenticity_token" neq="">
+          <request subst="true">
+              <http
+              url='/login'
+              version='1.1'
+              method='POST'
+              content_type="application/x-www-form-urlencoded"
+              contents='authenticity_token=%%_encoded_authenticity_token%%&amp;session%5Busername%5D=DummyUser%%_random_num%%&amp;session%5Bpassword_digest%5D=123&amp;commit=Log+in'>
+              </http>
+          </request>
+        </if>
+
+        <setdynvars sourcetype="random_number" start="1" end="10000">
+          <var name="random_other_user" />
+        </setdynvars>
+        
+
+        <!-- see all groups and click into a group -->
+        <request>
+            <http url='/groups' version='1.1' method='GET'></http>
+        </request>
+
+        <setdynvars sourcetype="random_number" start="1" end="1000">
+          <var name="random_group" />
+        </setdynvars>
+        
+        <request subst="true">
+            <http url='/groups/%%_random_group%%' version='1.1' method='GET'></http>
+        </request>
+
+        <!-- Create a new group -->
+        
+        <thinktime value="2" random="true"></thinktime>
+
+        <request subst="true">
+          <dyn_variable name="create_group_authenticity_token" xpath="//head/meta[@name='csrf-token']/@content"></dyn_variable>
+          <http url='/groups/new' version='1.1' method='GET'></http>
+        </request>
+
+        <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(create_group_authenticity_token,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
+          <var name="encoded_create_group_authenticity_token" />
+        </setdynvars>
+
+        <if var="encoded_create_group_authenticity_token" neq="">
+          <request subst="true">
+                <!-- grab the group id of the new group -->
+                <dyn_variable name="new_group_id" re="Location: http://.*/groups/([0-9]+)\r"/>
+                <http
+                url='/groups'
+                version='1.1'
+                method='POST'
+                content_type="application/x-www-form-urlencoded"
+                contents='authenticity_token=%%_encoded_create_group_authenticity_token%%&amp;group%5Bgroupname%5D=tsungnewgroup&amp;group%5Bpic_url%5D=123&amp;commit=Create+Group'>
+                </http>
+          </request>
+          <if var="new_group_id" neq="">
+            <!-- Add a random user to the group -->
+            <request subst="true">
+                <http url='/groupusers?gid=%%_new_group_id%%' version='1.1' method='GET'></http>
+            </request>
+
+            <request subst="true">
+                <http url='/addtogroup?gid=%%_new_group_id%%&amp;uid=%%_random_other_user%%' version='1.1' method='GET'></http>
+            </request>
+
+            <!-- Edit the newly created group -->
+            <request subst="true">
+              <dyn_variable name="edit_group_authenticity_token" xpath="//head/meta[@name='csrf-token']/@content"></dyn_variable>
+              <http url='/groups/%%_new_group_id%%/edit' version='1.1' method='GET'></http>
+            </request>
+
+            <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(edit_group_authenticity_token,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
+              <var name="encoded_edit_group_authenticity_token" />
+            </setdynvars>
+
+            <if var="encoded_edit_group_authenticity_token" neq="">
+              <request subst="true">
+                    <http
+                    url='/groups/%%_new_group_id%%'
+                    version='1.1'
+                    method='POST'
+                    content_type="application/x-www-form-urlencoded"
+                    contents='_method=patch&amp;authenticity_token=%%_edit_group_authenticity_token%%&amp;group%5Bgroupname%5D=tsungnewgroupUpdate&amp;group%5Bpic_url%5D=123&amp;commit=Update+Group'>
+                    </http>
+              </request>
+            </if>
+          </if>
+        </if>
+        
+
+        <!-- View message page-->
+        <request>
+            <http url='/messages' version='1.1' method='GET'></http>
+        </request>
+
+        <!-- View message with a random user and send a message to the user -->
+        <request subst="true">
+          <dyn_variable name="send_message_authenticity_token" xpath="//head/meta[@name='csrf-token']/@content"></dyn_variable>
+          <http url='/messages/%%_random_other_user%%' version='1.1' method='GET'></http>
+        </request>
+
+        <setdynvars code='fun({Pid,DynVars})->{ok,Val}=ts_dynvars:lookup(send_message_authenticity_token,DynVars),re:replace(Val,"[+]","%2B",[global,{return,list}]) end.' sourcetype="eval">
+          <var name="encoded_send_message_authenticity_token" />
+        </setdynvars>
+
+        <if var="encoded_send_message_authenticity_token" neq="">
+          <request subst="true">
+                <http
+                url='/messages/%%_random_other_user%%'
+                version='1.1'
+                method='POST'
+                content_type="application/x-www-form-urlencoded"
+                contents='authenticity_token=%%_encoded_send_message_authenticity_token%%&amp;message=tsungmessage&amp;to_user_id=%%_random_other_user%%&amp;from_user_id=%%_random_num%%&amp;commit=Send'>
+                </http>
+          </request>
+        </if>
+
+
+        <!--LOGOUT-->
+        <request><http method="GET" url="/logout"></http></request>
+
+
+
+            
+    </session>
+    
+  </sessions>
+</tsung>
