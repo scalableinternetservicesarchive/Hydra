@@ -6,7 +6,7 @@ class PostsController < ApplicationController
   def index
     # display posts which are public (has group_id:nil), or are part of a group the user belongs to
     group_user = logged_in? ? GroupUser.where(user_id:current_user.id) : []
-    arr = [nil]
+    arr = [0]
     for g_u in group_user do
       arr.push(g_u.group_id)
     end
