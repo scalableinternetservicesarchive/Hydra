@@ -6,12 +6,13 @@ class PostsController < ApplicationController
   def index
     # display posts which are public (has group_id:nil), or are part of a group the user belongs to
     group_user = logged_in? ? GroupUser.where(user_id:current_user.id) : []
-    arr = [nil]
+    arr = [0]
     for g_u in group_user do
       arr.push(g_u.group_id)
     end
-    @group_posts = Post.where(groupid:arr)
-    @pub_posts = Post.where(groupid:0).limit(500).order("date desc")
+    @posts = Post.where(groupid:arr)
+
+    # @posts = Post.where(groupid:arr).includes(:comments)
     @post = Post.new
   end
 
