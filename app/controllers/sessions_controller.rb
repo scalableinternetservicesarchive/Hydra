@@ -26,7 +26,14 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    log_out
-    redirect_to root_url, notice: 'Logged Out', status: :see_other
+    begin
+      log_out
+      flash[:notice] = "Logout successfully."
+    rescue
+      logger.info "Unsuccessful log out!"
+      flash[:alert] = "Unsuccessful log out!"
+    ensure
+      redirect_to root_url, notice: 'Logged Out', status: :see_other
+    end
   end
 end

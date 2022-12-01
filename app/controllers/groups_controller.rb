@@ -3,7 +3,7 @@ class GroupsController < ApplicationController
     before_action :require_login, :except => [ :index ]
     
     def index
-        @groups = Group.all
+        @groups = Group.order(:groupname).page params[:page]
     end
 
     def show

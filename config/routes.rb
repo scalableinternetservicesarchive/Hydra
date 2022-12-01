@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   get     "/messages", to: "messages#index"
   get     "/messages/:userid", to: "messages#show"
   post    "/messages/:userid", to: "messages#create"
+  get     '/messages/:userid/show_more_messages'=>'messages#show_more_messages'
   
   get     '/joingroup'=> 'group_users#join'
   get     '/leavegroup'=>'group_users#leave'
@@ -34,9 +35,14 @@ Rails.application.routes.draw do
   get     '/dashboard/show_more_rec_groups'=>'dashboard#show_more_rec_groups'
 
   
-  resources :users
-  resources :groups
+  resources :users do
+    get '/page/:page', action: :index, on: :collection
+  end
+  resources :groups do
+    get '/page/:page', action: :index, on: :collection
+  end
   resources :posts do
+    get '/page/:page', action: :index, on: :collection
     resources :comments
   end
 

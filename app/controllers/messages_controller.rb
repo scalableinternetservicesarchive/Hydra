@@ -1,14 +1,20 @@
 class MessagesController < ApplicationController
+  @@message_limit = 10
+
   def index
-    @messages = Message.all
-    @users = User.all
+    # @messages = Message.all
+    @users = User.order(:username).page params[:page]
   end
 
   def show
-    @users = User.all
+    if !current_user
+      flash.alert = "Please log in"
+      redirect_to "/messages" and return
+    end
+    @users = User.order(:username).page params[:page]
     @messages = Message.all
     @selected_user = params[:userid]
-    @conversation = @messages.where(to_user_id: @selected_user, from_user_id: current_user.id).or(@messages.where(to_user_id: current_user.id, from_user_id: @selected_user))
+    @conversation = @messages.where(to_user_id: @selected_user, from_user_id: current_user.id).or(@messages.where(to_user_id: current_user.id, from_user_id: @selected_user)).limit(@@message_limit)
   end
 
   def new
@@ -23,6 +29,11 @@ class MessagesController < ApplicationController
       flash.alert = "couldnt save"
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def show_more_messages
+    @@message_limit += 10
+    redirect_to "/messages/#{params[:userid]}"
   end
 
   private
