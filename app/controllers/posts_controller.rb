@@ -10,7 +10,7 @@ class PostsController < ApplicationController
     for g_u in group_user do
       arr.push(g_u.group_id)
     end
-    @posts = Post.where(groupid:arr)
+    @posts = Post.where(groupid:arr).includes(:comments)
     # @posts = Post.all
     @post = Post.new
   end
