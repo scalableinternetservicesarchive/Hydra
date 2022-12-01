@@ -3,8 +3,5 @@
 Our twitter has <%= Post.count %> posts!<br>
 <%= link_to "New Post", new_post_path %>
 
-<h2>Latest Group Posts</h2>
-<%= render @group_posts %>
-
-<h2>Latest Public Posts</h2>
-<%= render @pub_posts %>
+<h2>Latest Posts</h2>
+<%= render @posts %>

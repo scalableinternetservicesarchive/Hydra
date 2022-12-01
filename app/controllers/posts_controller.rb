@@ -10,21 +10,21 @@ class PostsController < ApplicationController
     for g_u in group_user do
       arr.push(g_u.group_id)
     end
-    @group_posts = Post.where(groupid:arr).includes(:comments)
-    @pub_posts = Post.where(groupid:0).includes(:comments).limit(500).order("date desc")
+    @posts = Post.where(groupid:arr).includes(:comments)
+    # @posts = Post.all
     @post = Post.new
   end
 
   def show
     @post = Post.find(params[:id])
     @user = User.find(current_user.id)
-    @comment = Comment.new
+    #@comment = Comment.new
   end
 
   def new
     # @user = User.find(params[:user_id])
     @post = Post.new
-    @comment = Comment.new
+    #@comment = Comment.new
   end
 
   def create
