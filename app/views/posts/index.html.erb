@@ -5,3 +5,5 @@ Our twitter has <%= Post.count %> posts!<br>
 
 <h2>Latest Posts</h2>
 <%= render @posts %>
+
+<%= paginate @posts %>
