@@ -5,6 +5,10 @@ class MessagesController < ApplicationController
   end
 
   def show
+    if !current_user
+      flash.alert = "Please log in"
+      redirect_to "/messages" and return
+    end
     @users = User.all
     @messages = Message.all
     @selected_user = params[:userid]
