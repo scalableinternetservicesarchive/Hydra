@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   has_many :posts
   before_save { self.email = email.downcase }
-  paginates_per 5
+  paginates_per 10
 
   validates :username, presence: true, uniqueness: { case_sensitive: false }, length: { maximum: 50 }
   validates :about, presence: true, length: { minimum: 10 }
