@@ -9,8 +9,10 @@
   <h4>My groups:</h4>
   <ul>
     <% @groupusers.each do |gu| %>
-      <% group = Group.find(gu.group_id) %>
-      <li><%= link_to group.groupname, group_path(group) %></li>
+      <% cache gu do %>
+        <% group = Group.find(gu.group_id) %>
+        <li><%= link_to group.groupname, group_path(group) %></li>
+      <% end %>
     <% end %>
   </ul>
   <br>
