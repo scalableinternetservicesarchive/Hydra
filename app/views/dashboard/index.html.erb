@@ -31,7 +31,6 @@
         <%= link_to user.username, user %>    <%= time %>
         <p style="font-size:large"><%= link_to post.message, post_path(post) %></p>
       </div>
-    <% end %>
   <% end %>
     <% if(@limited_posts.size < Post.all.size) %>
       <%= link_to "show more...", { action: "show_more_posts" }%>
