@@ -20,7 +20,8 @@
   <h3>Public Posts</h3>
   <div>
 <!--    rollback to f4d2fd652db71befefe4db6eec60f992af5af7a6-->
-    <% @posts.order("date desc").each do |post| %>
+  <% @posts.order("date desc").each do |post| %>
+    <% cache post do %>
       <% user = @users.find(post.user_id) %>
       <% if(post.updated_at.to_time().today?) %>
         <% time = post.updated_at.to_fs(:time) %>
@@ -33,6 +34,7 @@
         <p style="font-size:large"><%= link_to post.message, post_path(post) %></p>
       </div>
     <% end %>
+  <% end %>
     <% if(@limited_posts.size < Post.all.size) %>
       <%= link_to "show more...", { action: "show_more_posts" }%>
     <% end %>
@@ -42,7 +44,8 @@
   <h3>Recommended Users</h3>
   <div style="display:flex;flex-direction:row;flex-wrap:nowrap;overflow: scroll;">
 <!--    rollback to f4d2fd652db71befefe4db6eec60f992af5af7a6-->
-    <% @users.each do |user| %>
+  <% @users.each do |user| %>
+    <% cache user do %>
       <div style="padding: 10px;margin: 5px;">
         <img src="<%= user.pic_url %>" alt="User Avatar">
           <%#= render Post.where(name: user.username) %>
@@ -54,6 +57,7 @@
         <br><br> 
       <% end %>
       </div>
+    <% end %>
     <% end %>
     <% if(@rec_users.size < @users.size) %>
       <p style="font-size: 150px; margin-left: 20px; margin-right: 20px; text-decoration: none;">

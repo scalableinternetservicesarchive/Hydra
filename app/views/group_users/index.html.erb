@@ -3,6 +3,7 @@
 <h2>User Lists</h2>
 <ul>
   <% @users.each do |user| %>
+    <%cache user do%>
     <li>
       <%= link_to user.username, user_path(user) %>
       <% if user == current_user %>
@@ -15,6 +16,7 @@
         <%= link_to "+", addtogroup_path(:uid => user.id, :gid => @group.id), class: "btn btn-lg btn-primary" %>
       <% end %>
     </li>
+  <% end %>
   <% end %>
 </ul>
 
