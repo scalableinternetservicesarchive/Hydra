@@ -11,11 +11,13 @@
         </div>
       <% end %>
     <% end %>
+    <%= paginate @users %>
   </div>
 
   <div class="col-sm-6" style="width: 50%;  background: aliceblue;  border-radius: 20px;  padding: 20px; font-size: large;">
-    <div>
-        <h2 style="text-align:center; color: steelblue"> <%= @users.find(@selected_user).username%> </h2>
+    <h2 style="text-align:center; color: steelblue"> <%= User.find(@selected_user).username%> </h2>
+    <div style="display:flex; flex-direction:column-reverse; height: 600px;
+    overflow: scroll; margin-top: auto;">
         <% @conversation = @conversation.sort_by{|msg| [ msg.created_at ]} %>
         <% @conversation.each do |item| %>
           <% if current_user.id == item.from_user_id %>
@@ -34,6 +36,10 @@
           </ul>
           <% end %>
         <% end %>
+        <%# if(@conversation.size < @groups.size) %>
+          <p style="display: flex; justify-content: center; font-size: small;">
+            <%= link_to "show earlier messages", { action: "show_more_messages" }%></p>
+        <%# end %>
     </div>
 
     <%= form_with model: @message do |f| %>
