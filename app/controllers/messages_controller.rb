@@ -11,7 +11,8 @@ class MessagesController < ApplicationController
       flash.alert = "Please log in"
       redirect_to "/messages" and return
     end
-    @users = User.order(:username).page params[:page]
+    # @users = User.order(:username).page params[:page]
+    @users = User.all
     @messages = Message.all
     @selected_user = params[:userid]
     @conversation = @messages.where(to_user_id: @selected_user, from_user_id: current_user.id).or(@messages.where(to_user_id: current_user.id, from_user_id: @selected_user)).limit(@@message_limit)
