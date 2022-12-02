@@ -4,14 +4,13 @@
   <div class="col-sm-6">
     <h2 style="text-align:left"> Chats </h2>
     <% @users.each do |user| %>
-      <% if user.id != current_user.id %>
-        <div style="padding:10px"> 
-          <img src="<%=user.pic_url %>" alt="User Avatar" style="width:100px;height:100px;border:2px solid white;border-radius:50px">
-          <a href="/messages/<%= user.id %>" style="display:initial;font-size:22px;padding:20px"><%= user.username %></a>
-        </div>
+        <% if user.id != current_user.id %>
+          <div style="padding:10px"> 
+            <img src="<%=user.pic_url %>" alt="User Avatar" style="width:100px;height:100px;border:2px solid white;border-radius:50px">
+            <a href="/messages/<%= user.id %>" style="display:initial;font-size:22px;padding:20px"><%= user.username %></a>
+          </div>
+        <% end %>
       <% end %>
-    <% end %>
-    <%= paginate @users %>
   </div>
 
 <% else %>
